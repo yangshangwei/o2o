@@ -33,3 +33,46 @@ CREATE TABLE `tb_person_info` (
 	`last_edit_time` datetime DEFAULT NULL,
 	PRIMARY KEY (`user_id`)
 ) ENGINE = INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+
+--
+-- Table structure for table `tb_wechat_auth`
+--
+
+DROP TABLE IF EXISTS `tb_wechat_auth`;
+
+CREATE TABLE `tb_wechat_auth` (
+  `wechat_auth_id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  `open_id` varchar(512)  NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`wechat_auth_id`),
+  CONSTRAINT `fk_wechatauth_profile` FOREIGN KEY (`user_id`) REFERENCES `tb_person_info` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- add index for COLUMN open_id
+alter table  tb_wechat_auth add unique index(open_id);
+
+--
+-- Table structure for table `tb_local_auth`
+--
+
+DROP TABLE IF EXISTS `tb_local_auth`;
+
+CREATE TABLE `tb_local_auth` (
+  `local_auth_id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) DEFAULT NULL,
+  `user_name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `last_edit_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`local_auth_id`),
+  UNIQUE KEY `uk_local_profile` (`user_name`),
+  CONSTRAINT `fk_local_profile` FOREIGN KEY (`user_id`) REFERENCES `tb_person_info` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+
+
+
+
