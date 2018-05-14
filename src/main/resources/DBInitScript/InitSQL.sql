@@ -92,3 +92,22 @@ CREATE TABLE `tb_head_line` (
   PRIMARY KEY (`line_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+
+--
+-- Table structure for table `tb_shop_category`
+--
+
+DROP TABLE IF EXISTS `tb_shop_category`;
+
+CREATE TABLE `tb_shop_category` (
+  `shop_category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `shop_category_name` varchar(100) NOT NULL DEFAULT '',
+  `shop_category_desc` varchar(1000) DEFAULT '',
+  `shop_category_img` varchar(2000) DEFAULT NULL,
+  `priority` int(2) NOT NULL DEFAULT '0',
+  `create_time` datetime DEFAULT NULL,
+  `last_edit_time` datetime DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`shop_category_id`),
+  CONSTRAINT `fk_shop_category_self` FOREIGN KEY (`parent_id`) REFERENCES `tb_shop_category` (`shop_category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
