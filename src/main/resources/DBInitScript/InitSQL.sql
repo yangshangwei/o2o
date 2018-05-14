@@ -170,7 +170,6 @@ CREATE TABLE `tb_product_category` (
 
 
 
-
 --
 -- Table structure for table `tb_product`
 --
@@ -194,9 +193,6 @@ CREATE TABLE `tb_product` (
   CONSTRAINT `fk_product_procate` FOREIGN KEY (`product_category_id`) REFERENCES `tb_product_category` (`product_category_id`),
   CONSTRAINT `fk_product_shop` FOREIGN KEY (`shop_id`) REFERENCES `tb_shop` (`shop_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
-
-
 
 
 --
