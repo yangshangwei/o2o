@@ -19,7 +19,8 @@ public class Area {
 	/**
 	 * 区域Id
 	 */
-	private Integer aredId;
+	private Integer areaId;
+
 
 	/**
 	 * 区域名称
@@ -41,12 +42,13 @@ public class Area {
 	 */
 	private Date lastEditTime;
 
-	public Integer getAredId() {
-		return aredId;
+
+	public Integer getAreaId() {
+		return areaId;
 	}
 
-	public void setAredId(Integer aredId) {
-		this.aredId = aredId;
+	public void setAreaId(Integer areaId) {
+		this.areaId = areaId;
 	}
 
 	public String getAreaName() {
@@ -83,7 +85,7 @@ public class Area {
 
 	@Override
 	public String toString() {
-		return "Area [aredId=" + aredId + ", areaName=" + areaName + ", priority=" + priority + ", createTime=" + createTime + ", lastEditTime=" + lastEditTime + "]";
+		return "Area [areaId=" + areaId + ", areaName=" + areaName + ", priority=" + priority + ", createTime=" + createTime + ", lastEditTime=" + lastEditTime + "]";
 	}
 
 }
