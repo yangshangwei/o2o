@@ -28,6 +28,12 @@ public class Area {
 	private String areaName;
 
 	/**
+	 * 区域描述
+	 */
+	private String areaDesc;
+
+
+	/**
 	 * 权重,数值越大页面展示越靠前
 	 */
 	private Integer priority;
@@ -83,9 +89,17 @@ public class Area {
 		this.lastEditTime = lastEditTime;
 	}
 
+	public String getAreaDesc() {
+		return areaDesc;
+	}
+
+	public void setAreaDesc(String areaDesc) {
+		this.areaDesc = areaDesc;
+	}
+
 	@Override
 	public String toString() {
-		return "Area [areaId=" + areaId + ", areaName=" + areaName + ", priority=" + priority + ", createTime=" + createTime + ", lastEditTime=" + lastEditTime + "]";
+		return "Area [areaId=" + areaId + ", areaName=" + areaName + ", areaDesc=" + areaDesc + ", priority=" + priority + ", createTime=" + createTime + ", lastEditTime=" + lastEditTime + "]";
 	}
 
 }
