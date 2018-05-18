@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.artisan.o2o.dao.ShopDao">
+	<insert id="insertShop" useGeneratedKeys="true"  keyColumn="shop_id" keyProperty="shopId">
+		INSERT INTO tb_shop (
+			owner_id,
+			area_id,
+			shop_category_id,
+			shop_name,
+			shop_desc,
+			shop_addr,
+			phone,
+			shop_img,
+			priority,
+			create_time,
+			last_edit_time,
+			enable_status,
+			advice)
+		VALUES
+			(#{owner.userId},
+		     #{area.areaId},
+		     #{shopCategory.shopCategoryId},
+		     #{shopName},
+		     #{shopDesc},
+		     #{shopAddr},
+		     #{phone},
+		     #{shopImg},
+		     #{priority},
+		     #{createTime},
+		     #{lastEditTime},
+		     #{enableStatus},
+		     #{advice}
+			);
+	</insert>
+
+
+	<update id="updateShop" parameterType="Shop">
+		update tb_shop
+		<set>
+			<!-- 注意后面的逗号 -->
+			<if test="shopName != null">shop_name=#{shopName},</if>
+			<if test="shopDesc != null">shop_desc=#{shopDesc},</if>
+			<if test="shopAddr != null">shop_addr=#{shopAddr},</if>
+			<if test="phone != null">phone=#{phone},</if>
+			<if test="shopImg != null">shop_img=#{shopImg},</if>
+			<if test="priority != null">priority=#{priority},</if>
+			<if test="lastEditTime != null">last_edit_time=#{lastEditTime},</if>
+			<if test="enableStatus != null">enable_status=#{enableStatus},</if>
+			<if test="advice != null">advice=#{advice},</if>
+			<!-- 注意如果是引用的复杂对象的写法 -->
+			<if test="area != null">area_id=#{area.areaId},</if>
+			<if test="shopCategory != null">shop_category_id=#{shopCategory.shopCategoryId}</if>
+		</set>
+		where shop_id = #{shopId}
+	</update>
+	
+</mapper>   
+ 
+ 
+    
+    
