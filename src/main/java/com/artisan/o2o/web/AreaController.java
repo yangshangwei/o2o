@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import com.artisan.o2o.service.AreaService;
 @Controller
 @RequestMapping("/superadmin")
 public class AreaController {
+	Logger logger = LoggerFactory.getLogger(AreaController.class);
 
 	@Autowired
 	AreaService areaService;
@@ -24,6 +27,9 @@ public class AreaController {
 	@RequestMapping(value = "/listArea", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getAreas() {
+		logger.info("-----begin getAreas------");
+		Long beginTimeLong = System.currentTimeMillis();
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Area> areaList = new ArrayList<Area>();
 		try {
@@ -38,7 +44,13 @@ public class AreaController {
 			e.printStackTrace();
 			map.put("success", false);
 			map.put("errMsg", e.getMessage().toString());
+			logger.error("exception happpens , desc [{}] ", e.getMessage());
 		}
+
+
+		Long endTimeLong = System.currentTimeMillis();
+		logger.debug("cost [{}ms]", endTimeLong - beginTimeLong);
+		logger.info("-----end getAreas------");
 		return map;
 	}
 
