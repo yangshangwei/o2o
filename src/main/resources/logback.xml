@@ -10,7 +10,7 @@
 	<property name="log.level" value="DEBUG"/>
 	<property name="log.maxHistory" value="30"/>
 	<!--<property name="log.filePath" value="${catalina.base}/logs/webapps"/>  -->
-	<property name="log.filePath" value="D:/logs/${app.name}"/>
+	<property name="log.filePath" value="D:/${app.name}/logs"/>
 	<!--格式化输出,%d:日期;%thread:线程名;%-5level：级别,从左显示5个字符宽度;%msg:日志消息;%n:换行符-->
 	<property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
 	
@@ -54,12 +54,13 @@
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>${log.pattern}</pattern>
 		</encoder>
-		<!-- filter 只记录debug信息 -->
+		<!-- filter 只记录debug信息 
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">   
      		 <level>DEBUG</level>   
     		 <onMatch>ACCEPT</onMatch>   
      		 <onMismatch>DENY</onMismatch>   
-   		</filter>  
+   		</filter> 
+   		--> 
 	</appender>
 	
 	
@@ -88,12 +89,13 @@
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>${log.pattern}</pattern>
 		</encoder>
-		<!-- filter 只记录info信息 -->
+		<!-- filter 只记录info信息 
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
 			<level>INFO</level>
 			<onMatch>ACCEPT</onMatch>
 			<onMismatch>DENY</onMismatch>
 		</filter>
+		-->
 	</appender>
 	
 	<!-- ERROR -->
@@ -121,12 +123,13 @@
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>${log.pattern}</pattern>
 		</encoder>
-		<!-- filter 只记录error信息 -->
+		<!-- filter 只记录error信息
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
 			<level>ERROR</level>
 			<onMatch>ACCEPT</onMatch>
 			<onMismatch>DENY</onMismatch>
 		</filter>
+		 -->
 	</appender>
 	
 	 <!--打印特定包下的日志  
