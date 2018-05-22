@@ -1,6 +1,6 @@
 package com.artisan.o2o.service.impl;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class ShopServiceImpl implements ShopService {
 	 */
 	@Override
 	@Transactional
-	public ShopExecution addShop(Shop shop, File shopImg) {
+	public ShopExecution addShop(Shop shop, InputStream shopImgInputStream, String fileName) {
 		// 非空判断 (这里先判断shop是否为空，严格意义上讲shop中的are的属性也需要判断)
 		if (shop == null) {
 			return new ShopExecution(ShopStateEnum.NULL_SHOP_INFO);
@@ -75,10 +75,10 @@ public class ShopServiceImpl implements ShopService {
 			throw new ShopOperationException("店铺创建失败");
 		} else {
 			// 关键步骤2. 添加成功,则继续处理文件,获取shopid,用于创建图片存放的目录
-			if (shopImg != null) {
+			if (shopImgInputStream != null) {
 				try {
 					// 需要根据shopId来创建目录,所以也需要shop这个入参
-					addShopImg(shop, shopImg);
+					addShopImg(shop, shopImgInputStream, fileName);
 				} catch (Exception e) {
 					logger.error("addShopImg error {} ", e.toString());
 					throw new ShopOperationException("addShopImg error:" + e.getMessage());
@@ -107,10 +107,10 @@ public class ShopServiceImpl implements ShopService {
 	 * 
 	 * @return: void
 	 */
-	private void addShopImg(Shop shop, File shopImg) {
+	private void addShopImg(Shop shop, InputStream shopImgInputStream, String fileName) {
 		String imgPath = FileUtil.getShopImagePath(shop.getShopId());
 		// 生成图片的水印图
-		String relativeAddr = ImageUtil.generateThumbnails(shopImg, imgPath);
+		String relativeAddr = ImageUtil.generateThumbnails(shopImgInputStream, imgPath, fileName);
 		// 将相对路径设置个shop,用于更新数据库
 		shop.setShopImg(relativeAddr);
 	}

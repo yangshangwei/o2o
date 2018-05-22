@@ -2,6 +2,7 @@ package com.artisan.o2o.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -72,25 +73,25 @@ public class ImageUtil {
 	 * @return: String 返回相对路径的好处是，项目一旦迁移,不会影响，只需要变更basePath即可，尽可能少改动。
 	 *          图片存储的绝对路径=basePath+该路径
 	 */
-	public static String generateThumbnails(File file, String destPath) {
+	public static String generateThumbnails(InputStream ins, String destPath, String fileName) {
 		// 拼接后的新文件的相对路径
 		String relativeAddr = null;
 		try {
 			// 1.为了防止图片的重名，不采用用户上传的文件名，系统内部采用随机命名的方式
-			String fileName = generateRandomFileName();
+			String randomFileName = generateRandomFileName();
 			// 2.获取用户上传的文件的扩展名,用于拼接新的文件名
-			String fileExtensionName = getFileExtensionName(file);
+			String fileExtensionName = getFileExtensionName(fileName);
 			// 3.校验目标目录是否存在，不存在创建目录
 			validateDestPath(destPath);
 			// 4.拼接新的文件名
-			relativeAddr = destPath + fileName + fileExtensionName;
+			relativeAddr = destPath + randomFileName + fileExtensionName;
 			logger.info("图片相对路径 {}", relativeAddr);
 			// 绝对路径的形式创建文件
 			String basePath = FileUtil.getImgBasePath();
 			File destFile = new File(basePath + relativeAddr);
 			logger.info("图片完整路径 {}", destFile.getAbsolutePath());
 			// 5.给源文件加水印后输出到目标文件
-			Thumbnails.of(file).size(500, 500).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(FileUtil.getWaterMarkFile()), 0.25f).outputQuality(0.8).toFile(destFile);
+			Thumbnails.of(ins).size(500, 500).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(FileUtil.getWaterMarkFile()), 0.25f).outputQuality(0.8).toFile(destFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("创建水印图片失败：" + e.toString());
@@ -133,8 +134,7 @@ public class ImageUtil {
 	 * 
 	 * @return: String
 	 */
-	private static String getFileExtensionName(File file) {
-		String fileName = file.getName();
+	private static String getFileExtensionName(String fileName) {
 		String extension = fileName.substring(fileName.lastIndexOf("."));
 		logger.debug("extension: {}", extension);
 		return extension;
@@ -187,8 +187,6 @@ public class ImageUtil {
 			Thumbnails.of(souceFile).size(500, 500).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(warterMarkFile), 0.25f).outputQuality(0.8).toFile(destFile);
 			logger.info("水印添加成功,带有水印的图片{}", destFile.getAbsolutePath());
 
-			generateRandomFileName();
-			getFileExtensionName(souceFile);
 
 		} catch (IOException e) {
 			e.printStackTrace();
