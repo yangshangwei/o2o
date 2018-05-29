@@ -50,9 +50,9 @@ public class ShopCategory {
 	private Date lastEditTime;
 
 	/**
-	 * 上级Id,用于店铺目录的分层展示
+	 * 父类,主要是获取ID，用于店铺目录的分层展示
 	 */
-	private Long parentId;
+	private ShopCategory parent;
 
 	public Long getShopCategoryId() {
 		return shopCategoryId;
@@ -110,18 +110,21 @@ public class ShopCategory {
 		this.lastEditTime = lastEditTime;
 	}
 
-	public Long getParentId() {
-		return parentId;
+
+	public ShopCategory getParent() {
+		return parent;
 	}
 
-	public void setParentId(Long parentId) {
-		this.parentId = parentId;
+	public void setParent(ShopCategory parent) {
+		this.parent = parent;
 	}
 
 	@Override
 	public String toString() {
 		return "ShopCategory [shopCategoryId=" + shopCategoryId + ", shopCategoryName=" + shopCategoryName + ", shopCategoryDesc=" + shopCategoryDesc + ", shopCategoryImg=" + shopCategoryImg
-				+ ", priority=" + priority + ", createTime=" + createTime + ", lastEditTime=" + lastEditTime + ", parentId=" + parentId + "]";
+				+ ", priority=" + priority + ", createTime=" + createTime + ", lastEditTime=" + lastEditTime + ", parent=" + parent + "]";
 	}
+
+
 
 }

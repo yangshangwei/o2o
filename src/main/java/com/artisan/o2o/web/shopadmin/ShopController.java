@@ -2,6 +2,7 @@ package com.artisan.o2o.web.shopadmin;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +17,16 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.artisan.o2o.dto.ShopExecution;
+import com.artisan.o2o.entity.Area;
 import com.artisan.o2o.entity.PersonInfo;
 import com.artisan.o2o.entity.Shop;
+import com.artisan.o2o.entity.ShopCategory;
 import com.artisan.o2o.enums.ShopStateEnum;
+import com.artisan.o2o.service.AreaService;
+import com.artisan.o2o.service.ShopCategoryService;
 import com.artisan.o2o.service.ShopService;
 import com.artisan.o2o.util.HttPServletRequestUtil;
+import com.artisan.o2o.util.VerifyCodeUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
@@ -29,6 +35,12 @@ public class ShopController {
 
 	@Autowired
 	private ShopService shopService;
+
+	@Autowired
+	private ShopCategoryService shopCategoryService;
+
+	@Autowired
+	private AreaService areaservice;
 
 	/**
 	 * 
@@ -51,6 +63,13 @@ public class ShopController {
 	@ResponseBody
 	public Map<String, Object> registerShop(HttpServletRequest request) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
+
+		// 0. 验证码校验
+		if (!VerifyCodeUtil.verifyCode(request)) {
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "验证码不正确");
+			return modelMap;
+		}
 		// 1. 接收并转换相应的参数，包括shop信息和图片信息
 
 		// 1.1 shop信息
@@ -68,6 +87,7 @@ public class ShopController {
 			// 将错误信息返回给前台
 			modelMap.put("success", false);
 			modelMap.put("errMsg", e.getMessage());
+			return modelMap;
 		}
 
 		// 1.2 图片信息 基于Apache Commons FileUpload的文件上传
@@ -83,7 +103,8 @@ public class ShopController {
 		} else {
 			// 将错误信息返回给前台
 			modelMap.put("success", false);
-			modelMap.put("errMsg", "图片不能为空");
+			modelMap.put("errMsg", "图片信息为空");
+			return modelMap;
 		}
 
 		// 2. 注册店铺
@@ -126,5 +147,37 @@ public class ShopController {
 		}
 		return modelMap;
 	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @Title: getshopinitinfo
+	 * 
+	 * @Description: 初始化区域信息 和 ShopCategory信息,返回给前台表单页面
+	 * 
+	 * @return: Map<String,Object>
+	 */
+	@RequestMapping(value = "/getshopinitinfo", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getshopinitinfo() {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		List<ShopCategory> shopCategoryList = null;
+		List<Area> areaList = null;
+		try {
+			shopCategoryList = shopCategoryService.getShopCategoryList(new ShopCategory());
+			areaList = areaservice.getAreaList();
+			// 返回success shopCategoryList areaList,前端通过
+			// data.success来判断从而展示shopCategoryList和areaList的数据
+			modelMap.put("success", true);
+			modelMap.put("shopCategoryList", shopCategoryList);
+			modelMap.put("areaList", areaList);
+		} catch (Exception e) {
+			modelMap.put("success", false);
+			modelMap.put("errMsg", e.getMessage());
+		}
+		return modelMap;
+	}
+	
 
 }
