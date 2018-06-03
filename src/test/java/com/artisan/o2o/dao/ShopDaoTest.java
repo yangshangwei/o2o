@@ -96,4 +96,15 @@ public class ShopDaoTest extends BaseTest {
 		logger.debug("update  successfully");
 
 	}
+
+	@Test
+	public void testSelectShopById() {
+		Shop shop = shopDao.selectShopById(30L);
+		Assert.assertNotNull(shop);
+		Assert.assertEquals("优乐美", shop.getShopName());
+		Assert.assertEquals("北京", shop.getArea().getAreaName());
+		Assert.assertEquals("奶茶", shop.getShopCategory().getShopCategoryName());
+
+		System.out.println(shop.toString());
+	}
 }

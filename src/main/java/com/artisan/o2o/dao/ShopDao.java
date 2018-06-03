@@ -29,4 +29,17 @@ public interface ShopDao {
 	 */
 	int updateShop(Shop shop);
 
+	/**
+	 * 
+	 * 
+	 * @Title: selectShopById
+	 * 
+	 * @Description: 根据shopId查询shop
+	 * 
+	 * @param shopId
+	 * @return
+	 * 
+	 * @return: Shop
+	 */
+	Shop selectShopById(long shopId);
 }
