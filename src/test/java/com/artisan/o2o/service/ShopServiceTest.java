@@ -61,4 +61,48 @@ public class ShopServiceTest extends BaseTest {
 
 		Assert.assertEquals(ShopStateEnum.CHECK.getState(), se.getState());
 	}
+
+	@Test
+	public void testGetShopById() {
+		Shop shop = shopService.getShopById(30L);
+		Assert.assertNotNull(shop);
+		Assert.assertEquals("优乐美", shop.getShopName());
+		System.out.println(shop.toString());
+	}
+
+	@Test
+	public void testModifyShop() {
+		Shop shop = new Shop();
+		Area area = new Area();
+		ShopCategory shopCategory = new ShopCategory();
+
+		shop.setShopId(28L);
+
+		area.setAreaId(2);
+		shopCategory.setShopCategoryId(2L);
+
+		shop.setArea(area);
+		shop.setShopCategory(shopCategory);
+
+		shop.setShopName("Modify咖啡店");
+		shop.setShopDesc("Modify小工匠的咖啡店");
+		shop.setShopAddr("Modify-NanJing");
+		shop.setPhone("123456");
+		shop.setPriority(78);
+
+		File shopFile = new File("D:/o2o/artisan.jpg");
+
+		ShopExecution se = null;
+		InputStream ins = null;
+		try {
+			ins = new FileInputStream(shopFile);
+			se = shopService.modifyShop(shop, ins, shopFile.getName());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Assert.assertEquals(ShopStateEnum.SUCCESS.getState(), se.getState());
+	}
+
+
 }

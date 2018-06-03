@@ -115,4 +115,45 @@ public class ShopServiceImpl implements ShopService {
 		shop.setShopImg(relativeAddr);
 	}
 
+	@Override
+	public Shop getShopById(long shopId) {
+		return shopDao.selectShopById(shopId);
+	}
+
+	@Override
+	@Transactional
+	public ShopExecution modifyShop(Shop shop, InputStream shopFileInputStream, String fileName) throws ShopOperationException {
+		if (shop == null || shop.getShopId() == null) {
+			return new ShopExecution(ShopStateEnum.NULL_SHOP_INFO);
+		}else{
+			try {
+				// 1. 判断是否需要处理图片
+				if (shopFileInputStream != null && fileName != null && !"".equals(fileName)) {
+					// 1.1 删除掉旧的图片
+					// 查询入参shop对应数据库表中的shopImg路径
+					Shop tempShop = shopDao.selectShopById(shop.getShopId());
+					if (tempShop != null) {
+						// 删除就的缩略图
+						ImageUtil.deleteStorePath(tempShop.getShopImg());
+					}
+					// 1.2 用新的图片生成缩略图
+					addShopImg(shop, shopFileInputStream, fileName);
+				}
+				// 2. 更新店铺信息
+
+				// 2.1 更新一些必要属性
+				shop.setLastEditTime(new Date());
+				// 2.2 更新店铺
+				int effectedNum = shopDao.updateShop(shop);
+				if (effectedNum <= 0) {
+					throw new ShopOperationException(ShopStateEnum.INNER_ERROR.getStateInfo());
+				}
+				return new ShopExecution(ShopStateEnum.SUCCESS, shop);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new ShopOperationException("modify shop error:" + e.getMessage());
+			}
+		}
+	}
+
 }

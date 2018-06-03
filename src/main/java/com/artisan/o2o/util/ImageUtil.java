@@ -162,6 +162,29 @@ public class ImageUtil {
 		}
 	}
 
+	/**
+	 * 
+	 * 
+	 * @Title: deleteStorePath
+	 * 
+	 * @Description: 判断storePath是否为目录，为目录的话删掉目录下的所有文件，否则删掉文件
+	 * 
+	 * @param storePath
+	 * 
+	 * @return: void
+	 */
+	public static void deleteStorePath(String storePath) {
+		File fileOrMenu = new File(FileUtil.getImgBasePath() + storePath);
+		if (fileOrMenu != null) {
+			if (fileOrMenu.isDirectory()) {
+				File[] files = fileOrMenu.listFiles();
+				for (int i = 0; i < files.length; i++) {
+					files[i].delete();
+				}
+			}
+			fileOrMenu.delete();
+		}
+	}
 
 	/**
 	 * 
