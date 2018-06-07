@@ -37,7 +37,47 @@
 			
 	</resultMap>
 	
-
+	<sql id="selectShopByCondition">
+		<!-- 可输入的查询条件：
+			商铺名（要求模糊查询） 
+			区域Id 
+			商铺状态 
+			商铺类别 
+			owner 
+		(注意在sqlmapper中按照前端入参拼装不同的查询语句) -->
+		<!-- 商铺名（要求模糊查询） -->
+		<if test="shopCondition.shopName != null and '' != shopCondition.shopName">
+			<!--  两种写法都可以 注意第二种是 ${}传值 -->
+			<!-- 
+			#{}和${}
+			#{}表示一个占位符号，通过#{}可以实现preparedStatement向占位符中设置值，自动进行java类型和jdbc类型转换，
+				#{}可以有效防止sql注入。 #{}可以接收简单类型值或pojo属性值。
+				 如果parameterType传输单个简单类型值，#{}括号中可以是value或其它名称。
+				 
+			${}表示拼接sql串，通过${}可以将parameterType 传入的内容拼接在sql中且不进行jdbc类型转换， 
+				${}可以接收简单类型值或pojo属性值，
+				如果parameterType传输单个简单类型值，${}括号中只能是value。
+			 -->
+			<!-- and s.shop_name like concat('%',#{shopCondition.shopName},'%')-->
+			and s.shop_name like '%${shopCondition.shopName}%'
+		</if>
+		<!-- 区域Id  -->
+		<if test="shopCondition.area != null and shopCondition.area.areaId != null ">
+			and s.area_id = #{shopCondition.area.areaId}
+		</if>
+		<!-- 商铺状态  -->
+		<if test="shopCondition.enableStatus !=null">
+			and s.enable_status = #{shopCondition.enableStatus}
+		</if>
+		<!-- 商铺类别  -->
+		<if test="shopCondition.shopCategory != null and shopCondition.shopCategory.shopCategoryId != null ">
+			and s.shop_category_id = #{shopCondition.shopCategory.shopCategoryId}
+		</if>
+		<!-- owner  -->
+		<if test="shopCondition.owner != null and shopCondition.owner.userId != null">
+			and s.owner_id = #{shopCondition.owner.userId}
+		</if> 	
+	</sql>
 
 	<insert id="insertShop" useGeneratedKeys="true"  keyColumn="shop_id" keyProperty="shopId">
 		INSERT INTO tb_shop (
@@ -119,7 +159,53 @@
 		AND s.shop_category_id = sc.shop_category_id
 		AND s.shop_id =  #{shopId}
 	</select>
+		
+		
+	<select id="selectShopList" resultMap="shopMap">
+		SELECT
+			s.shop_id,
+			s.shop_name,
+			s.shop_desc,
+			s.shop_addr,
+			s.phone,
+			s.shop_img,
+			s.priority,
+			s.create_time,
+			s.last_edit_time,
+			s.enable_status,
+			s.advice,
+			a.area_id,
+			a.area_name,
+			sc.shop_category_id,
+			sc.shop_category_name
+		FROM
+			tb_shop s,
+			tb_area a,
+			tb_shop_category sc
+		<where>
+			<include refid="selectShopByCondition"/>
+		</where>
+		AND	s.area_id = a.area_id
+		AND s.shop_category_id = sc.shop_category_id 
+		ORDER BY s.priority DESC
+		LIMIT #{rowIndex} , #{pageSize}
+	</select>
 	
+	
+	<select id="selectShopCount" resultType="Integer">
+			SELECT
+			count(1)
+		FROM
+			tb_shop s,
+			tb_area a,
+			tb_shop_category sc
+		<where>
+			<include refid="selectShopByCondition"/>
+		</where>
+		AND	s.area_id = a.area_id
+		AND s.shop_category_id = sc.shop_category_id 
+	</select>
+		
 </mapper>   
  
  
