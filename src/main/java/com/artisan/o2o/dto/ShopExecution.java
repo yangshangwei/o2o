@@ -42,8 +42,18 @@ public class ShopExecution {
 	 * 店铺集合 (查询店铺列表的时候用)
 	 */
 	private List<Shop> shopList;
-
 	
+	/**
+	 * 
+	 * 
+	 * @Title:ShopExecution
+	 * 
+	 * @Description: 无参构造函数
+	 */
+	public ShopExecution() {
+		super();
+	}
+
 	/**
 	 * 
 	 * 

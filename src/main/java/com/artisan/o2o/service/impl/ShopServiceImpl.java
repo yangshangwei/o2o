@@ -1,7 +1,9 @@
 package com.artisan.o2o.service.impl;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import com.artisan.o2o.exception.ShopOperationException;
 import com.artisan.o2o.service.ShopService;
 import com.artisan.o2o.util.FileUtil;
 import com.artisan.o2o.util.ImageUtil;
+import com.artisan.o2o.util.PageCalculator;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -155,5 +158,26 @@ public class ShopServiceImpl implements ShopService {
 			}
 		}
 	}
+
+	@Override
+	public ShopExecution getShopList(Shop shopCondition, int pageIndex, int pageSize) throws ShopOperationException {
+		// 前台页面插入的pageIndex（第几页）， 而dao层是使用 rowIndex （第几行） ，所以需要转换一下
+		int rowIndex = PageCalculator.calculateRowIndex(pageIndex, pageSize);
+		List<Shop> shopList = new ArrayList<Shop>();
+		ShopExecution se = new ShopExecution();
+		// 查询带有分页的shopList
+		shopList = shopDao.selectShopList(shopCondition, rowIndex, pageSize);
+		// 查询符合条件的shop总数
+		int count = shopDao.selectShopCount(shopCondition);
+		// 将shopList和 count设置到se中，返回给控制层
+		if (shopList != null) {
+			se.setShopList(shopList);
+			se.setCount(count);
+		} else {
+			se.setState(ShopStateEnum.INNER_ERROR.getState());
+		}
+		return se;
+	}
+
 
 }

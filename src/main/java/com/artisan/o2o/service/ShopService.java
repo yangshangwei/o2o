@@ -53,4 +53,24 @@ public interface ShopService {
 	 * @return: ShopExecution
 	 */
 	ShopExecution modifyShop(Shop shop, InputStream shopFileInputStream, String fileName) throws ShopOperationException;
+	
+	
+	/**
+	 * 
+	 * 
+	 * @Title: getShopList
+	 * 
+	 * @Description: 获取商铺列表. 在这一个方法中同样的会调用查询总数的DAO层方法，封装到ShopExecution中
+	 * 
+	 * @param shopCondition
+	 * @param pageIndex
+	 *            前端页面 只有第几页 第几页 定义为pageIndex
+	 * @param pageSize
+	 *            展示的行数
+	 * @throws ShopOperationException
+	 * 
+	 * @return: ShopExecution
+	 */
+	ShopExecution getShopList(Shop shopCondition, int pageIndex, int pageSize) throws ShopOperationException;;
+	
 }
