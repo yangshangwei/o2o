@@ -370,9 +370,9 @@ public class ShopController {
 	 * 
 	 * @return: Map<String,Object>
 	 */
-	@RequestMapping(value = "/shopmanagement", method = RequestMethod.GET)
+	@RequestMapping(value = "/getshopmanageInfo", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> shopManagement(HttpServletRequest request) {
+	public Map<String, Object> getShopManageInfo(HttpServletRequest request) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 获取shopId
 		long shopId = HttPServletRequestUtil.getLong(request, "shopId");
@@ -383,7 +383,7 @@ public class ShopController {
 			if (currentShop == null) {
 				// 如果当前session中也没有shop信息,告诉view层 重定向
 				modelMap.put("redirect", true);
-				modelMap.put("url", "/o2o/shopadmin/getshoplist");
+				modelMap.put("url", "/o2o/shopadmin/shoplist");
 			}else{
 				// 告诉view层 进入该页面
 				modelMap.put("redirect", false);
@@ -395,7 +395,6 @@ public class ShopController {
 			// 将currentShop放到session中
 			request.getSession().setAttribute("currentShop", shop);
 			modelMap.put("redirect", false);
-			modelMap.put("shopId", shop.getShopId());
 		}
 
 		return modelMap;

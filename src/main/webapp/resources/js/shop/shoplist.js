@@ -45,9 +45,10 @@ $(function(){
 		}
 	}
 
+	// 进入到商铺的管理页面,请求/shopadmin/shopmanagement ，进入到管理页面
 	function goShop(status,shopId){
 		if (status == 1 ) {
-			return '<a href="/o2o/shopadmin/shopmanage?shopId=' + shopId + '">进入</a>';
+			return '<a href="/o2o/shopadmin/shopmanagement?shopId=' + shopId + '">进入</a>';
 		}else{
 			return '';
 		}
