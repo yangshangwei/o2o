@@ -22,6 +22,7 @@ import com.artisan.o2o.entity.PersonInfo;
 import com.artisan.o2o.entity.Shop;
 import com.artisan.o2o.entity.ShopCategory;
 import com.artisan.o2o.enums.ShopStateEnum;
+import com.artisan.o2o.exception.ShopOperationException;
 import com.artisan.o2o.service.AreaService;
 import com.artisan.o2o.service.ShopCategoryService;
 import com.artisan.o2o.service.ShopService;
@@ -311,6 +312,92 @@ public class ShopController {
 			modelMap.put("success", false);
 			modelMap.put("errMsg", "ShopId不合法");
 		}
+		return modelMap;
+	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @Title: getShopList
+	 * 
+	 * @Description: 从session中获取当前person拥有的商铺列表
+	 * 
+	 * @param request
+	 * @return
+	 * 
+	 * @return: Map<String,Object>
+	 */
+	@RequestMapping(value = "/getshoplist", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getShopList(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		// 现在还没有做登录模块，因此session中并没有用户的信息，先模拟一下登录 要改造TODO
+		PersonInfo personInfo = new PersonInfo();
+		personInfo.setUserId(1L);
+		personInfo.setName("小工匠");
+		request.getSession().setAttribute("user", personInfo);
+		// 从session中获取user信息
+		personInfo = (PersonInfo) request.getSession().getAttribute("user");
+		
+		try {
+			Shop shopCondition = new Shop();
+			shopCondition.setOwner(personInfo);
+			ShopExecution se = shopService.getShopList(shopCondition, 1, 99);
+			modelMap.put("success", true);
+			modelMap.put("shopList", se.getShopList());
+			modelMap.put("user", personInfo);
+		} catch (ShopOperationException e) {
+			e.printStackTrace();
+			modelMap.put("success", false);
+			modelMap.put("errMsg", e.getMessage());
+		}
+		return modelMap;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @Title: shopManagement
+	 * 
+	 * @Description: 从商铺列表页面中，点击“进入”按钮进入
+	 *               某个商铺的管理页面的时候，对session中的数据的校验从而进行页面的跳转，是否跳转到店铺列表页面或者可以直接操作该页面
+	 * 
+	 *               访问形式如下
+	 *               http://ip:port/o2o/shopadmin/shopmanagement?shopId=xxx
+	 * 
+	 * @return
+	 * 
+	 * @return: Map<String,Object>
+	 */
+	@RequestMapping(value = "/shopmanagement", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> shopManagement(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		// 获取shopId
+		long shopId = HttPServletRequestUtil.getLong(request, "shopId");
+		// 如果shopId不合法
+		if (shopId < 0) {
+			// 尝试从当前session中获取
+			Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
+			if (currentShop == null) {
+				// 如果当前session中也没有shop信息,告诉view层 重定向
+				modelMap.put("redirect", true);
+				modelMap.put("url", "/o2o/shopadmin/getshoplist");
+			}else{
+				// 告诉view层 进入该页面
+				modelMap.put("redirect", false);
+				modelMap.put("shopId", currentShop.getShopId());
+			}
+		} else { // shopId合法的话
+			Shop shop = new Shop();
+			shop.setShopId(shopId);
+			// 将currentShop放到session中
+			request.getSession().setAttribute("currentShop", shop);
+			modelMap.put("redirect", false);
+			modelMap.put("shopId", shop.getShopId());
+		}
+
 		return modelMap;
 	}
 
