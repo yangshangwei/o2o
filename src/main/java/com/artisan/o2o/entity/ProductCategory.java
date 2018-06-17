@@ -17,7 +17,8 @@ public class ProductCategory {
 
 	private Long productCategoryId;
 	/**
-	 * 店铺id,表名该产品目录是哪个店铺下的
+	 * 店铺id,表名该产品目录是哪个店铺下的(因为无需关联Shop的其他属性，所以这里直接定义了Long类型的shopId,
+	 * 而没有使用Shop类型的去定义)
 	 */
 	private Long shopId;
 	private String productCategoryName;
@@ -81,4 +82,11 @@ public class ProductCategory {
 	public void setLastEditTime(Date lastEditTime) {
 		this.lastEditTime = lastEditTime;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductCategory [productCategoryId=" + productCategoryId + ", shopId=" + shopId + ", productCategoryName=" + productCategoryName + ", productCategoryDesc=" + productCategoryDesc
+				+ ", priority=" + priority + ", createTime=" + createTime + ", lastEditTime=" + lastEditTime + "]";
+	}
+
 }
