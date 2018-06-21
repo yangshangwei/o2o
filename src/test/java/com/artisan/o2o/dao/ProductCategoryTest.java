@@ -2,8 +2,11 @@ package com.artisan.o2o.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,4 +36,33 @@ public class ProductCategoryTest extends BaseTest {
 		assertEquals(0, productCategories.size());
 
 	}
+
+	@Test
+	public void testBatchInsertProductCategory() {
+
+		ProductCategory productCategory1 = new ProductCategory();
+		productCategory1.setProductCategoryName("ProductCategoryTest1");
+		productCategory1.setProductCategoryDesc("ProductCategoryTest1-desc");
+		productCategory1.setPriority(300);
+		productCategory1.setCreateTime(new Date());
+		productCategory1.setLastEditTime(new Date());
+		productCategory1.setShopId(5L);
+
+		ProductCategory productCategory2 = new ProductCategory();
+		productCategory2.setProductCategoryName("ProductCategoryTest2");
+		productCategory2.setProductCategoryDesc("ProductCategoryTest2-desc");
+		productCategory2.setPriority(600);
+		productCategory2.setCreateTime(new Date());
+		productCategory2.setLastEditTime(new Date());
+		productCategory2.setShopId(5L);
+
+		List<ProductCategory> productCategoryList = new ArrayList<ProductCategory>();
+		productCategoryList.add(productCategory1);
+		productCategoryList.add(productCategory2);
+
+		int effectNum = productCategoryDao.batchInsertProductCategory(productCategoryList);
+		Assert.assertEquals(2, effectNum);
+
+	}
+
 }

@@ -123,6 +123,9 @@ public class ShopServiceImpl implements ShopService {
 		return shopDao.selectShopById(shopId);
 	}
 
+	/**
+	 * 事务控制@Transactional
+	 */
 	@Override
 	@Transactional
 	public ShopExecution modifyShop(Shop shop, InputStream shopFileInputStream, String fileName) throws ShopOperationException {

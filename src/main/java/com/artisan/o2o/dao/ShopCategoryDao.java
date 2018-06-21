@@ -23,7 +23,6 @@ public interface ShopCategoryDao {
 	 *               所以这里需要加个入参ShopCategory，并通过MyBatis提供的注解@Param与Mapper映射文件中的SQL关联起来
 	 *               ，在SQL中进行判断
 	 * 
-	 * @return
 	 * 
 	 * @return: List<ShopCategory>
 	 */
