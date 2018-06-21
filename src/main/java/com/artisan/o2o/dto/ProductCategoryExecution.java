@@ -44,7 +44,7 @@ public class ProductCategoryExecution {
 	 * 
 	 * @Title:ProductCategoryExecution
 	 * 
-	 * @Description:操作成功的时候使用的构造函数,返回操作状态和ProductCategory集合
+	 * @Description:操作成功的时候使用的构造函数,返回操作状态和ProductCategory集合,以及操作成功的行数
 	 * 
 	 * @param productCategoryStateEnum
 	 * @param productCategoryList

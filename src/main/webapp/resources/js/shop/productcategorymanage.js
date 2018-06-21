@@ -75,7 +75,7 @@ $(function () {
 					// 重新加载数据
 					getProductCategoryList();
 				} else {
-					$.toast('提交失败！');
+					$.toast(data.errMsg);
 				}
 			}
 		});
