@@ -48,6 +48,7 @@ public class ProductCategoryExecution {
 	 * 
 	 * @param productCategoryStateEnum
 	 * @param productCategoryList
+	 * @param count
 	 */
 	public ProductCategoryExecution(ProductCategoryStateEnum productCategoryStateEnum, List<ProductCategory> productCategoryList, int count) {
 		this.state = productCategoryStateEnum.getState();
@@ -103,5 +104,4 @@ public class ProductCategoryExecution {
 	public void setCount(int count) {
 		this.count = count;
 	}
-
 }
