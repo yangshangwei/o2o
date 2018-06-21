@@ -53,7 +53,7 @@ $(function () {
 	$('#submit').click(function() {
 		// 通过temp 获取新增的行
 		var tempArr = $('.temp');
-		// 定义数据接收新增的数据
+		// 定义数组接收新增的数据
 		var productCategoryList = [];
 		tempArr.map(function(index, item) {
 			var tempObj = {};
@@ -66,7 +66,7 @@ $(function () {
 		$.ajax({
 			url : addProductCategoryURL,
 			type : 'POST',
-			// 后端通过 @HttpRequestBody直接接受
+			// 后端通过 @HttpRequestBody直接接收
 			data : JSON.stringify(productCategoryList),
 			contentType : 'application/json',
 			success : function(data) {

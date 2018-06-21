@@ -40,8 +40,6 @@
 		 		#{productCategory.shopId}
 		 	)
 		 </foreach>
-		 
-		
 	</insert>
 	
 </mapper>   

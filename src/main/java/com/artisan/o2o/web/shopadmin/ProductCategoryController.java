@@ -69,7 +69,7 @@ public class ProductCategoryController {
 	 * 
 	 * @Title: addProductCategory
 	 * 
-	 * @Description: 添加商铺目录
+	 * @Description: 添加商铺目录 ，使用@RequestBody接收前端传递过来的productCategoryList
 	 * 
 	 * @param productCategoryList
 	 * @param request
