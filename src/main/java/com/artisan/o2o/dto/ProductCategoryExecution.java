@@ -41,13 +41,14 @@ public class ProductCategoryExecution {
 
 	/**
 	 * 
-	 * 
+	
 	 * @Title:ProductCategoryExecution
-	 * 
+	
 	 * @Description:操作成功的时候使用的构造函数,返回操作状态和ProductCategory集合
-	 * 
+	
 	 * @param productCategoryStateEnum
 	 * @param productCategoryList
+	 * @param count
 	 */
 	public ProductCategoryExecution(ProductCategoryStateEnum productCategoryStateEnum, List<ProductCategory> productCategoryList, int count) {
 		this.state = productCategoryStateEnum.getState();
@@ -96,6 +97,7 @@ public class ProductCategoryExecution {
 	}
 
 
+<<<<<<< HEAD
 	public int getCount() {
 		return count;
 	}
@@ -104,4 +106,6 @@ public class ProductCategoryExecution {
 		this.count = count;
 	}
 
+=======
+>>>>>>> 0d8e70238d1612f9297e6d110dfe50c799ee2e9a
 }
