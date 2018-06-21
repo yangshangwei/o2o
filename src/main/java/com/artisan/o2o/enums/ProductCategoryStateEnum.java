@@ -2,7 +2,7 @@ package com.artisan.o2o.enums;
 
 public enum ProductCategoryStateEnum {
 
-	INNER_ERROR(-1001, "操作失败"), NULL_SHOP(-1002, "Shop信息为空");
+	SUCCESS(1, "操作成功"), INNER_ERROR(-1001, "操作失败"), NULL_SHOP(-1002, "Shop信息为空"), EMPETY_LIST(-1003, "请输入商品目录信息");
 
 	private int state ;
 	private String stateInfo;
