@@ -96,7 +96,6 @@ public class ProductCategoryExecution {
 		this.productCategoryList = productCategoryList;
 	}
 
-
 	public int getCount() {
 		return count;
 	}
@@ -104,4 +103,5 @@ public class ProductCategoryExecution {
 	public void setCount(int count) {
 		this.count = count;
 	}
+
 }
