@@ -5,6 +5,7 @@ $(function () {
     
     var getProductCategoryURL = '/o2o/shopadmin/getproductcategorybyshopId';
     var addProductCategoryURL = '/o2o/shopadmin/addproductcategory';
+    var deleteProductCategoryUrl = '/o2o/shopadmin/removeproductcategory';
     // 调用getProductCategoryList，加载数据
     getProductCategoryList();
     
@@ -81,4 +82,35 @@ $(function () {
 		});
 	});
     
+	
+	// 一种是需要提交到后台的删除  now  ，另外一种是 新增但未提交到数据库中的删除 temp
+	
+	$('.product-categroy-wrap').on('click', '.row-product-category.now .delete',
+			function(e) {
+				var target = e.currentTarget;
+				$.confirm('确定么?', function() {
+					$.ajax({
+						url : deleteProductCategoryUrl,
+						type : 'POST',
+						data : {
+							productCategoryId : target.dataset.id,
+						},
+						dataType : 'json',
+						success : function(data) {
+							if (data.success) {
+								$.toast('删除成功！');
+								// 重新加载数据
+								getProductCategoryList();
+							} else {
+								$.toast('删除失败！');
+							}
+						}
+					});
+				});
+			});
+
+	$('.product-categroy-wrap').on('click', '.row-product-category.temp .delete',
+			function(e) {
+				$(this).parent().parent().remove();
+			});
 });

@@ -64,7 +64,5 @@ public class ProductCategoryServiceTest extends BaseTest {
 		Assert.assertEquals(1, productCategoryExecution.getState());
 		ProductCategoryExecution productCategoryExecution2 = productCategoryService.deleteProductCategory(27, 5);
 		Assert.assertEquals(1, productCategoryExecution2.getState());
-
-
 	}
 }

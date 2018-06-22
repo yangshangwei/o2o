@@ -44,7 +44,7 @@ import com.artisan.o2o.entity.ProductCategory;
  * @date: 2018年6月21日 下午11:55:45
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ProductCategoryTest extends BaseTest {
+public class ProductCategoryDaoTest extends BaseTest {
 	
 	@Autowired
 	ProductCategoryDao productCategoryDao;
