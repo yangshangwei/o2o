@@ -61,4 +61,25 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 		}
 	}
 
+	/**
+	 * TODO 需要先将该商品目录下的商品的类别Id置为空，然后再删除该商品目录， 因此需要事务控制@Transactional
+	 */
+	@Override
+	@Transactional
+	public ProductCategoryExecution deleteProductCategory(long productCategoryId, long shopId) throws ProductCategoryOperationException {
+		// TODO 第一步 需要先将该商品目录下的商品的类别Id置为空
+
+		// 第二步 删除该商品目录
+		try {
+			int effectNum = productCategoryDao.deleteProductCategory(productCategoryId, shopId);
+			if (effectNum > 0) {
+				return new ProductCategoryExecution(ProductCategoryStateEnum.SUCCESS);
+			} else {
+				return new ProductCategoryExecution(ProductCategoryStateEnum.INNER_ERROR);
+			}
+		} catch (Exception e) {
+			throw new ProductCategoryOperationException(e.getMessage());
+		}
+	}
+
 }

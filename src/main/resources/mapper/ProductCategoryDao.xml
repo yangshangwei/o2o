@@ -42,6 +42,14 @@
 		 </foreach>
 	</insert>
 	
+	<delete id="deleteProductCategory">
+		DELETE FROM 
+			tb_product_category
+		WHERE 
+			product_category_id = #{productCategoryId}
+			and 
+			shop_id = #{shopId}
+	</delete>
 </mapper>   
  
  
