@@ -8,6 +8,7 @@ public class ProductImg {
 	private String imgDesc;
 	private Integer priority;
 	private Date createTime;
+	// 只需要一个productId属性，不需要获取Product的其他属性，所以这里直接使用Long类型的productId，而没有使用Product。
 	private Long productId;
 
 	public Long getProductImgId() {
