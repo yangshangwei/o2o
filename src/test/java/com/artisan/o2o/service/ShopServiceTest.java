@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.artisan.o2o.BaseTest;
+import com.artisan.o2o.dto.ImageHolder;
 import com.artisan.o2o.dto.ShopExecution;
 import com.artisan.o2o.entity.Area;
 import com.artisan.o2o.entity.PersonInfo;
@@ -53,7 +54,8 @@ public class ShopServiceTest extends BaseTest {
 		InputStream ins = null;
 		try {
 			ins = new FileInputStream(shopFile);
-			se = shopService.addShop(shop, ins, shopFile.getName());
+			ImageHolder imageHolder = new ImageHolder(ins, shopFile.getName());
+			se = shopService.addShop(shop, imageHolder);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -96,7 +98,8 @@ public class ShopServiceTest extends BaseTest {
 		InputStream ins = null;
 		try {
 			ins = new FileInputStream(shopFile);
-			se = shopService.modifyShop(shop, ins, shopFile.getName());
+			ImageHolder imageHolder = new ImageHolder(ins, shopFile.getName());
+			se = shopService.modifyShop(shop, imageHolder);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

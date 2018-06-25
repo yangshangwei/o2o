@@ -1,29 +1,39 @@
 package com.artisan.o2o.service;
 
-import java.io.InputStream;
-
+import com.artisan.o2o.dto.ImageHolder;
 import com.artisan.o2o.dto.ShopExecution;
 import com.artisan.o2o.entity.Shop;
 import com.artisan.o2o.exception.ShopOperationException;
 
 public interface ShopService {
 	
+
 	/**
 	 * 
 	 * 
 	 * @Title: addShop
 	 * 
-	 * @Description: 新增商铺
+	 * @Description: 重构后的方法，将shopFileInputStream和fileName封装到ImageHolder类中
+	 * 
+	 *               重构之前的入参为：Shop shop, InputStream shopFileInputStream, String
+	 *               fileName
+	 * 
+	 *               因为在处理添加商品的时候，既需要处理商品的缩略图 ，又需要处理多个商品详情图片，如果还是直接传inputstream
+	 *               和 filename的话 就需要5个参数，不方便调用。
+	 * 
+	 *               所里这里选择将inputstream 和 filename封装到ImageHolder中，方便调用。
+	 * 
+	 *               所里这里也需要重构
 	 * 
 	 * @param shop
-	 * @param shopFileInputStream
-	 * @param fileName
+	 * @param imageHolder
 	 * @return
+	 * @throws ShopOperationException
 	 * 
 	 * @return: ShopExecution
 	 */
-	ShopExecution addShop(Shop shop, InputStream shopFileInputStream, String fileName) throws ShopOperationException;
-	
+	ShopExecution addShop(Shop shop, ImageHolder imageHolder) throws ShopOperationException;
+
 	/**
 	 * 
 	 * 
@@ -52,7 +62,7 @@ public interface ShopService {
 	 * 
 	 * @return: ShopExecution
 	 */
-	ShopExecution modifyShop(Shop shop, InputStream shopFileInputStream, String fileName) throws ShopOperationException;
+	ShopExecution modifyShop(Shop shop, ImageHolder imageHolder) throws ShopOperationException;
 	
 	
 	/**

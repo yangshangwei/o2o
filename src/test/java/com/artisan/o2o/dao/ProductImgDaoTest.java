@@ -39,10 +39,7 @@ public class ProductImgDaoTest extends BaseTest {
 
 		// 调用接口批量新增商品详情图片
 		int effectNum = productImgDao.batchInsertProductImg(productImgList);
-
 		Assert.assertEquals(2, effectNum);
-
-
 	}
 
 }

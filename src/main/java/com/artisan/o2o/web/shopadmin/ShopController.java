@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.artisan.o2o.dto.ImageHolder;
 import com.artisan.o2o.dto.ShopExecution;
 import com.artisan.o2o.entity.Area;
 import com.artisan.o2o.entity.PersonInfo;
@@ -131,7 +132,9 @@ public class ShopController {
 			// 主要是为了service层单元测测试的方便，因为service层很难实例化出一个CommonsMultipartFile类型的实例
 			ShopExecution se = null;;
 			try {
-				se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+				// se = shopService.addShop(shop, shopImg.getInputStream(),
+				// shopImg.getOriginalFilename());
+				se = shopService.addShop(shop, new ImageHolder(shopImg.getInputStream(), shopImg.getOriginalFilename()));
 				if (se.getState() == ShopStateEnum.CHECK.getState()) {
 					modelMap.put("success", true);
 					modelMap.put("errMsg", "注册成功");
@@ -290,9 +293,9 @@ public class ShopController {
 			ShopExecution se = null;
 			try {
 				if (shopImg != null) {
-					se = shopService.modifyShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+					se = shopService.modifyShop(shop, new ImageHolder(shopImg.getInputStream(), shopImg.getOriginalFilename()));
 				} else {
-					se = shopService.modifyShop(shop, null, null);
+					se = shopService.modifyShop(shop, null);
 				}
 				// 成功
 				if (se.getState() == ShopStateEnum.SUCCESS.getState()) {

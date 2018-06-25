@@ -1,6 +1,5 @@
 package com.artisan.o2o.service.impl;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.artisan.o2o.dao.ShopDao;
+import com.artisan.o2o.dto.ImageHolder;
 import com.artisan.o2o.dto.ShopExecution;
 import com.artisan.o2o.entity.Shop;
 import com.artisan.o2o.enums.ShopStateEnum;
@@ -61,7 +61,7 @@ public class ShopServiceImpl implements ShopService {
 	 */
 	@Override
 	@Transactional
-	public ShopExecution addShop(Shop shop, InputStream shopImgInputStream, String fileName) {
+	public ShopExecution addShop(Shop shop, ImageHolder imageHolder) {
 		// 非空判断 (这里先判断shop是否为空，严格意义上讲shop中的are的属性也需要判断)
 		if (shop == null) {
 			return new ShopExecution(ShopStateEnum.NULL_SHOP_INFO);
@@ -78,10 +78,10 @@ public class ShopServiceImpl implements ShopService {
 			throw new ShopOperationException("店铺创建失败");
 		} else {
 			// 关键步骤2. 添加成功,则继续处理文件,获取shopid,用于创建图片存放的目录
-			if (shopImgInputStream != null) {
+			if (imageHolder.getIns() != null) {
 				try {
 					// 需要根据shopId来创建目录,所以也需要shop这个入参
-					addShopImg(shop, shopImgInputStream, fileName);
+					addShopImg(shop, imageHolder);
 				} catch (Exception e) {
 					logger.error("addShopImg error {} ", e.toString());
 					throw new ShopOperationException("addShopImg error:" + e.getMessage());
@@ -110,10 +110,10 @@ public class ShopServiceImpl implements ShopService {
 	 * 
 	 * @return: void
 	 */
-	private void addShopImg(Shop shop, InputStream shopImgInputStream, String fileName) {
+	private void addShopImg(Shop shop, ImageHolder imageHolder) {
 		String imgPath = FileUtil.getShopImagePath(shop.getShopId());
 		// 生成图片的水印图
-		String relativeAddr = ImageUtil.generateThumbnails(shopImgInputStream, imgPath, fileName);
+		String relativeAddr = ImageUtil.generateThumbnails(imageHolder, imgPath);
 		// 将相对路径设置个shop,用于更新数据库
 		shop.setShopImg(relativeAddr);
 	}
@@ -128,13 +128,13 @@ public class ShopServiceImpl implements ShopService {
 	 */
 	@Override
 	@Transactional
-	public ShopExecution modifyShop(Shop shop, InputStream shopFileInputStream, String fileName) throws ShopOperationException {
+	public ShopExecution modifyShop(Shop shop, ImageHolder imageHolder) throws ShopOperationException {
 		if (shop == null || shop.getShopId() == null) {
 			return new ShopExecution(ShopStateEnum.NULL_SHOP_INFO);
 		}else{
 			try {
 				// 1. 判断是否需要处理图片
-				if (shopFileInputStream != null && fileName != null && !"".equals(fileName)) {
+				if (imageHolder.getIns() != null && imageHolder.getFileName() != null && !"".equals(imageHolder.getFileName())) {
 					// 1.1 删除掉旧的图片
 					// 查询入参shop对应数据库表中的shopImg路径
 					Shop tempShop = shopDao.selectShopById(shop.getShopId());
@@ -143,7 +143,7 @@ public class ShopServiceImpl implements ShopService {
 						ImageUtil.deleteStorePath(tempShop.getShopImg());
 					}
 					// 1.2 用新的图片生成缩略图
-					addShopImg(shop, shopFileInputStream, fileName);
+					addShopImg(shop, imageHolder);
 				}
 				// 2. 更新店铺信息
 

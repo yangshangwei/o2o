@@ -2,9 +2,10 @@ package com.artisan.o2o.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,8 @@ import net.coobird.thumbnailator.geometry.Positions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import com.artisan.o2o.dto.ImageHolder;
 
 public class ImageUtil {
 		
@@ -73,17 +76,17 @@ public class ImageUtil {
 	 * @return: String 返回相对路径的好处是，项目一旦迁移,不会影响，只需要变更basePath即可，尽可能少改动。
 	 *          图片存储的绝对路径=basePath+该路径
 	 */
-	public static String generateThumbnails(InputStream ins, String destPath, String fileName) {
+	public static String generateThumbnails(ImageHolder imageHolder, String destPath) {
 		// 拼接后的新文件的相对路径
 		String relativeAddr = null;
 		try {
 			// 1.为了防止图片的重名，不采用用户上传的文件名，系统内部采用随机命名的方式
 			String randomFileName = generateRandomFileName();
 			// 2.获取用户上传的文件的扩展名,用于拼接新的文件名
-			String fileExtensionName = getFileExtensionName(fileName);
+			String fileExtensionName = getFileExtensionName(imageHolder.getFileName());
 			// 3.校验目标目录是否存在，不存在创建目录
 			validateDestPath(destPath);
-			// 4.拼接新的文件名
+			// 4.拼接新的文件名：相对路径+随机文件名+文件扩展名
 			relativeAddr = destPath + randomFileName + fileExtensionName;
 			logger.info("图片相对路径 {}", relativeAddr);
 			// 绝对路径的形式创建文件
@@ -91,7 +94,7 @@ public class ImageUtil {
 			File destFile = new File(basePath + relativeAddr);
 			logger.info("图片完整路径 {}", destFile.getAbsolutePath());
 			// 5.给源文件加水印后输出到目标文件
-			Thumbnails.of(ins).size(500, 500).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(FileUtil.getWaterMarkFile()), 0.25f).outputQuality(0.8).toFile(destFile);
+			Thumbnails.of(imageHolder.getIns()).size(500, 500).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(FileUtil.getWaterMarkFile()), 0.25f).outputQuality(0.8).toFile(destFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("创建水印图片失败：" + e.toString());
@@ -216,5 +219,50 @@ public class ImageUtil {
 			throw new RuntimeException("创建缩略图失败：" + e.toString());
 		}
 
+	}
+
+	/**
+	 * 
+	 * 
+	 * @Title: generateNormalImgs
+	 * 
+	 * @Description: 生成商品详情的图片
+	 * 
+	 * @param prodImgDetailList
+	 * @param relativePath
+	 * @return
+	 * 
+	 * @return: List<String>
+	 */
+	public static List<String> generateNormalImgs(List<ImageHolder> prodImgDetailList, String relativePath) {
+		int count = 0;
+		List<String> relativeAddrList = new ArrayList<String>();
+		if (prodImgDetailList != null && prodImgDetailList.size() > 0) {
+			validateDestPath(relativePath);
+			for (ImageHolder imgeHolder : prodImgDetailList) {
+				// 1.为了防止图片的重名，不采用用户上传的文件名，系统内部采用随机命名的方式
+				String randomFileName = generateRandomFileName();
+				// 2.获取用户上传的文件的扩展名,用于拼接新的文件名
+				String fileExtensionName = getFileExtensionName(imgeHolder.getFileName());
+				// 3.拼接新的文件名 :相对路径+随机文件名+i+文件扩展名
+				String relativeAddr = relativePath + randomFileName + count + fileExtensionName;
+				logger.info("图片相对路径 {}", relativeAddr);
+				count++;
+				// 4.绝对路径的形式创建文件
+				String basePath = FileUtil.getImgBasePath();
+				File destFile = new File(basePath + relativeAddr);
+				logger.info("图片完整路径 {}", destFile.getAbsolutePath());
+				try {
+					// 5.给源文件加水印后输出到目标文件 不加水印
+					Thumbnails.of(imgeHolder.getIns()).size(600, 300).outputQuality(0.5).toFile(destFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+					throw new RuntimeException("创建图片失败：" + e.toString());
+				}
+				// 将图片的相对路径名称添加到list中
+				relativeAddrList.add(relativeAddr);
+			}
+		}
+		return relativeAddrList;
 	}
 }
