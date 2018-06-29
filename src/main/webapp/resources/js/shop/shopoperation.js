@@ -4,7 +4,7 @@
 $(function() {
 	// 通过url是否含有shopId来判断是注册还是编辑商铺
 	var shopId  = getQueryString('shopId');
-	// shopId非空返回true，空者返回false
+	// shopId非空返回true，空则返回false
 	var isEdit = shopId ? true :false;
 	
 	// 获取基本信息的URL
