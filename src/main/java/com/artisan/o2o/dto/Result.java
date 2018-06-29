@@ -25,7 +25,7 @@ public class Result<T> {
 	private int errorCode;
 
 	// 错误信息
-	private String errorMsg;
+	private String errMsg;
 
 	/**
 	 * 
@@ -60,12 +60,12 @@ public class Result<T> {
 	 * 
 	 * @param success
 	 * @param errorCode
-	 * @param errorMsg
+	 * @param errMsg
 	 */
-	public Result(boolean success, int errorCode, String errorMsg) {
+	public Result(boolean success, int errorCode, String errMsg) {
 		this.success = success;
 		this.errorCode = errorCode;
-		this.errorMsg = errorMsg;
+		this.errMsg = errMsg;
 		
 	}
 	
@@ -94,12 +94,13 @@ public class Result<T> {
 		this.errorCode = errorCode;
 	}
 
-	public String getErrorMsg() {
-		return errorMsg;
+	public String getErrMsg() {
+		return errMsg;
 	}
 
-	public void setErrorMsg(String errorMsg) {
-		this.errorMsg = errorMsg;
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
 	}
+
 
 }

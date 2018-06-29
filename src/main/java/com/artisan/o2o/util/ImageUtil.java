@@ -189,37 +189,7 @@ public class ImageUtil {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 * @Title: main
-	 * 
-	 * @Description: 演示thumbnail的基本用法
-	 * 
-	 * @param args
-	 * 
-	 * @return: void
-	 */
-	public static void main(String[] args) {
-		try {
-			// 需要加水印的图片
-			File souceFile = new File("D:/o2o/artisan.jpg");
-			// 加完水印后输出的目标图片
-			File destFile = new File("D:/o2o/artisan-with-watermark.jpg");
-			// 水印图片
-			File warterMarkFile = FileUtil.getWaterMarkFile();
-			logger.info("warterMarkFileName: {}", warterMarkFile.getName());
-			// 加水印
-			Thumbnails.of(souceFile).size(500, 500).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(warterMarkFile), 0.25f).outputQuality(0.8).toFile(destFile);
-			logger.info("水印添加成功,带有水印的图片{}", destFile.getAbsolutePath());
 
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("创建缩略图失败：" + e.toString());
-		}
-
-	}
 
 	/**
 	 * 
@@ -253,7 +223,7 @@ public class ImageUtil {
 				File destFile = new File(basePath + relativeAddr);
 				logger.info("图片完整路径 {}", destFile.getAbsolutePath());
 				try {
-					// 5.给源文件加水印后输出到目标文件 不加水印
+					// 5. 不加水印 设置为比缩略图大一点的图片（因为是商品详情图片），生成图片
 					Thumbnails.of(imgeHolder.getIns()).size(600, 300).outputQuality(0.5).toFile(destFile);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -264,5 +234,36 @@ public class ImageUtil {
 			}
 		}
 		return relativeAddrList;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @Title: main
+	 * 
+	 * @Description: 演示thumbnail的基本用法
+	 * 
+	 * @param args
+	 * 
+	 * @return: void
+	 */
+	public static void main(String[] args) {
+		try {
+			// 需要加水印的图片
+			File souceFile = new File("D:/o2o/artisan.jpg");
+			// 加完水印后输出的目标图片
+			File destFile = new File("D:/o2o/artisan-with-watermark.jpg");
+			// 水印图片
+			File warterMarkFile = FileUtil.getWaterMarkFile();
+			logger.info("warterMarkFileName: {}", warterMarkFile.getName());
+			// 加水印
+			Thumbnails.of(souceFile).size(500, 500).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(warterMarkFile), 0.25f).outputQuality(0.8).toFile(destFile);
+			logger.info("水印添加成功,带有水印的图片{}", destFile.getAbsolutePath());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("创建缩略图失败：" + e.toString());
+		}
+
 	}
 }
