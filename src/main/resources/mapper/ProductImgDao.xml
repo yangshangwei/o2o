@@ -27,4 +27,27 @@
 			</foreach>
 	</insert>
 	
+	<delete id="deleteProductImgById">
+		DELETE FROM 
+			tb_product_img 
+		WHERE 
+			product_id = #{produtId}
+	</delete>
+	
+	<select id="selectProductImgList" resultType="com.artisan.o2o.entity.ProductImg">
+		SELECT 
+			product_img_id,
+			img_addr,
+			img_desc,
+			priority,
+			create_time,
+			product_id
+		FROM 
+			tb_product_img
+		WHERE 
+			product_id=#{productId}
+		ORDER BY  
+			product_img_id 
+	</select>
+	
 </mapper>  
