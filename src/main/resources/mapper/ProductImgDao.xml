@@ -27,4 +27,13 @@
 			</foreach>
 	</insert>
 	
+	
+	
+	<delete id="deleteProductImgById">
+		DELETE FROM 
+			tb_product_img 
+		WHERE 
+			product_id = #{produtId}
+	</delete>
+	
 </mapper>  
