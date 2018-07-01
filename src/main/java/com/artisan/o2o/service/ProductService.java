@@ -65,10 +65,43 @@ public interface ProductService {
 	 *            产品缩略图的封装信息
 	 * @param prodImgDetailList
 	 *            产品详情图片的封装信息
-	 * @return
+	 * 
 	 * @throws ProductOperationException
 	 * 
 	 * @return: ProductExecution
 	 */
 	ProductExecution addProduct(Product product, ImageHolder imageHolder, List<ImageHolder> prodImgDetailList) throws ProductOperationException;
+
+
+	/**
+	 * 
+	 * 
+	 * @Title: queryProductById
+	 * 
+	 * @Description: 根据productId查询product
+	 * 
+	 * @param productId
+	 * 
+	 * @return: Product
+	 */
+	Product queryProductById(long productId);
+
+	/**
+	 * 
+	 * 
+	 * @Title: modifyProduct
+	 * 
+	 * @Description: TODO
+	 * 
+	 * @param product
+	 *            产品信息
+	 * @param imageHolder
+	 *            产品缩略图的封装信息
+	 * @param prodImgDetailList
+	 *            产品详情图片的封装信息
+	 * @throws ProductOperationException
+	 * 
+	 * @return: ProductExecution
+	 */
+	ProductExecution modifyProduct(Product product, ImageHolder imageHolder, List<ImageHolder> prodImgDetailList) throws ProductOperationException;
 }
