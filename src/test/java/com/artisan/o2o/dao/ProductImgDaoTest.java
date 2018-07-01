@@ -88,16 +88,11 @@ public class ProductImgDaoTest extends BaseTest {
 	}
 
 	@Test
-<<<<<<< HEAD
-	public void testC_DeleteProductImgById() {
-=======
 	public void testB_DeleteProductImgById() {
->>>>>>> abece8c742dc4dd06914e6995ed487762f32260e
 		Long productId = 3L;
 		int effectNum = productImgDao.deleteProductImgById(productId);
 		Assert.assertEquals(2, effectNum);
 	}
-<<<<<<< HEAD
 
 	@Test
 	public void testB_SelectProdcutImgById() {
@@ -109,6 +104,4 @@ public class ProductImgDaoTest extends BaseTest {
 			System.out.println(productImg.toString());
 		}
 	}
-=======
->>>>>>> abece8c742dc4dd06914e6995ed487762f32260e
 }

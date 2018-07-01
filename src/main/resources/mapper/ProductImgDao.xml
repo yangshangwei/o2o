@@ -27,11 +27,7 @@
 			</foreach>
 	</insert>
 	
-<<<<<<< HEAD
-=======
-	
-	
->>>>>>> abece8c742dc4dd06914e6995ed487762f32260e
+
 	<delete id="deleteProductImgById">
 		DELETE FROM 
 			tb_product_img 
@@ -39,7 +35,6 @@
 			product_id = #{produtId}
 	</delete>
 	
-<<<<<<< HEAD
 	<select id="selectProductImgList" resultType="com.artisan.o2o.entity.ProductImg">
 		SELECT 
 			product_img_id,
@@ -56,6 +51,4 @@
 			product_img_id 
 	</select>
 	
-=======
->>>>>>> abece8c742dc4dd06914e6995ed487762f32260e
 </mapper>  

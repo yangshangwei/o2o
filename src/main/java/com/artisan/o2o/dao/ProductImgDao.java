@@ -31,7 +31,6 @@ public interface ProductImgDao {
 	 * @return: int
 	 */
 	int deleteProductImgById(long productId);
-<<<<<<< HEAD
 
 	/**
 	 * 
@@ -45,6 +44,4 @@ public interface ProductImgDao {
 	 * @return: List<ProductImg>
 	 */
 	List<ProductImg> selectProductImgList(long productId);
-=======
->>>>>>> abece8c742dc4dd06914e6995ed487762f32260e
 }
