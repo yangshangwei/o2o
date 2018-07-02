@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 
  * 
- * @ClassName: HTTPServletRequestUtil
+ * @ClassName: HttpServletRequestUtil
  * 
  * @Description: 获取前端请求HttpServletRequest中参数的工具类
  * 
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  * @date: 2018年5月21日 下午10:56:16
  */
-public class HttPServletRequestUtil {
+public class HttpServletRequestUtil {
 
 	public static int getInt(HttpServletRequest request, String name) {
 

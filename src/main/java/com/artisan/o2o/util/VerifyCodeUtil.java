@@ -28,7 +28,7 @@ public class VerifyCodeUtil {
 				com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
 		logger.debug("verifyCodeExpected:{}", verifyCodeExpected);
 		// 用户输入的验证码
-		String verifyCodeActual = HttPServletRequestUtil.getString(request,
+		String verifyCodeActual = HttpServletRequestUtil.getString(request,
 				"verifyCodeActual");
 		logger.debug("verifyCodeActual:{}", verifyCodeActual);
 		if (verifyCodeActual == null

@@ -21,6 +21,7 @@
 			类型为 com.artisan.o2o.entity.ProductCategory-->
 		<association property="productCategory" column="product_category_id"
 			javaType="com.artisan.o2o.entity.ProductCategory">
+			<!-- 对应ProductCategory中的属性 和 tb_product_category的字段 -->
 			<id column="product_category_id" property="productCategoryId" />
 			<result column="product_category_name" property="productCategoryName" />
 		</association>
@@ -31,7 +32,8 @@
 		<association property="shop" column="shop_id"
 			javaType="com.artisan.o2o.entity.Shop">
 			<id column="shop_id" property="shopId" />
-			<result column="owner_id" property="ownerId" />
+			<!-- 对应Shop中的属性 和 tb_shop的字段 ,如果是符合对象，使用xx.xxx的方式-->
+			<result column="owner_id" property="owner.userId" />
 			<result column="shop_name" property="shopName" />
 		</association>
 		<!-- 一对多使用collection  
@@ -97,7 +99,6 @@
 			p.create_time,
 			p.last_edit_time,
 			p.enable_status,
-			p.point,
 			p.product_category_id,
 			p.shop_id,
 			pm.product_img_id,

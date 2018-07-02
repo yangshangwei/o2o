@@ -157,6 +157,16 @@ public class ProductServiceImpl implements ProductService {
 
 	/**
 	 * 注意事务控制@Transactional
+	 * 
+	 * 1. 如用户上传了缩略图，则将原有的缩略图删除（磁盘上删除），并更新tb_product表的img_addr字段，否则不做任何处理。
+	 * 
+	 * 
+	 * 2. 如果用户上传了新的商品详情图片，则将原有的属于该productId下的全部的商品详情图删除（磁盘上删除），
+	 * 同时删除productId对应的tb_product_img中的全部数据。
+	 * 
+	 * 
+	 * 3. 更新tb_product的信息
+	 * 
 	 */
 	@Override
 	@Transactional

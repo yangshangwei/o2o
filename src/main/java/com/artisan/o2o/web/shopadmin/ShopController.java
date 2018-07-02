@@ -27,7 +27,7 @@ import com.artisan.o2o.exception.ShopOperationException;
 import com.artisan.o2o.service.AreaService;
 import com.artisan.o2o.service.ShopCategoryService;
 import com.artisan.o2o.service.ShopService;
-import com.artisan.o2o.util.HttPServletRequestUtil;
+import com.artisan.o2o.util.HttpServletRequestUtil;
 import com.artisan.o2o.util.VerifyCodeUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -77,7 +77,7 @@ public class ShopController {
 		// 1.1 shop信息
 
 		// shopStr 是和前端约定好的参数值，后端从request中获取request这个值来获取shop的信息
-		String shopStr = HttPServletRequestUtil.getString(request, "shopStr");
+		String shopStr = HttpServletRequestUtil.getString(request, "shopStr");
 		// 使用jackson-databind 将json转换为pojo
 		ObjectMapper mapper = new ObjectMapper();
 		Shop shop = null;
@@ -203,7 +203,7 @@ public class ShopController {
 	public Map<String, Object> getShopInfoById(HttpServletRequest request) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// shopId 为和前端约定好的变量
-		int shopId = HttPServletRequestUtil.getInt(request, "shopId");
+		int shopId = HttpServletRequestUtil.getInt(request, "shopId");
 		try {
 			if (shopId >= 0) {
 				// 查询 ，按照设计，我们希望前端页面下拉列表中可以修改区域信息，所以需要查询出来全量的区域列表
@@ -259,7 +259,7 @@ public class ShopController {
 		// 1.1 shop信息
 
 		// shopStr 是和前端约定好的参数值，后端从request中获取request这个值来获取shop的信息
-		String shopStr = HttPServletRequestUtil.getString(request, "shopStr");
+		String shopStr = HttpServletRequestUtil.getString(request, "shopStr");
 		// 使用jackson-databind 将json转换为pojo
 		ObjectMapper mapper = new ObjectMapper();
 		Shop shop = null;
@@ -378,7 +378,7 @@ public class ShopController {
 	public Map<String, Object> getShopManageInfo(HttpServletRequest request) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 获取shopId
-		long shopId = HttPServletRequestUtil.getLong(request, "shopId");
+		long shopId = HttpServletRequestUtil.getLong(request, "shopId");
 		// 如果shopId不合法
 		if (shopId < 0) {
 			// 尝试从当前session中获取

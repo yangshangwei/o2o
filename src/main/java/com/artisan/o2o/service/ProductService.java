@@ -91,7 +91,7 @@ public interface ProductService {
 	 * 
 	 * @Title: modifyProduct
 	 * 
-	 * @Description: TODO
+	 * @Description: 修改商品
 	 * 
 	 * @param product
 	 *            产品信息
