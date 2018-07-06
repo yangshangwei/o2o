@@ -20,6 +20,7 @@ import com.artisan.o2o.exception.ProductOperationException;
 import com.artisan.o2o.service.ProductService;
 import com.artisan.o2o.util.FileUtil;
 import com.artisan.o2o.util.ImageUtil;
+import com.artisan.o2o.util.PageCalculator;
 
 /**
  * 
@@ -226,6 +227,23 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product queryProductById(long productId) {
 		return productDao.selectProductById(productId);
+	}
+
+	@Override
+	public ProductExecution queryProductionList(Product productCondition, int pageIndex, int pageSize) throws ProductOperationException {
+		List<Product> productList = null;
+		int count = 0;
+		try {
+			// 将pageIndex 转换为Dao层识别的rowIndex
+			int rowIndex = PageCalculator.calculateRowIndex(pageIndex, pageSize);
+			// 调用Dao层获取productList和总量
+			productList = productDao.selectProductList(productCondition, rowIndex, pageSize);
+			count = productDao.selectCountProduct(productCondition);
+		} catch (Exception e) {
+			e.printStackTrace();
+			new ProductExecution(ProductStateEnum.INNER_ERROR);
+		}
+		return new ProductExecution(ProductStateEnum.SUCCESS, productList, count);
 	}
 
 }

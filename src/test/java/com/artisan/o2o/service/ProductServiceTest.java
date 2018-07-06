@@ -122,4 +122,41 @@ public class ProductServiceTest extends BaseTest {
 
 	}
 
+	@Test
+	public void testQueryProductListAndCount() {
+		// 库表中符合如下筛选条件的记录为5条
+		// select * from tb_product a where a.product_category_id = 36 and
+		// a.shop_id = 5 and a.product_name like '%test%';
+
+		// 从第1页开始取，每页取3条
+		int pageIndex = 1;
+		int pageSize = 3;
+
+		Shop shop2 = new Shop();
+		shop2.setShopId(5L);
+
+		ProductCategory productCategory = new ProductCategory();
+		productCategory.setProductCategoryId(36L);
+
+		Product productCondition = new Product();
+		productCondition.setShop(shop2);
+		productCondition.setProductCategory(productCategory);
+		productCondition.setProductName("test");
+
+
+		ProductExecution productExecution = productService.queryProductionList(productCondition, pageIndex, pageSize);
+		// 操作成功的状态为1
+		Assert.assertEquals(1, productExecution.getState());
+		Assert.assertEquals(3, productExecution.getProductList().size());
+		Assert.assertEquals(5, productExecution.getCount());
+
+		// 从第2页开始取，每页依然取3条
+		pageIndex = 2;
+		productExecution = productService.queryProductionList(productCondition, pageIndex, pageSize);
+		Assert.assertEquals(1, productExecution.getState());
+		Assert.assertEquals(2, productExecution.getProductList().size());
+		Assert.assertEquals(5, productExecution.getCount());
+
+	}
+
 }

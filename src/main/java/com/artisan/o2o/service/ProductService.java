@@ -104,4 +104,22 @@ public interface ProductService {
 	 * @return: ProductExecution
 	 */
 	ProductExecution modifyProduct(Product product, ImageHolder imageHolder, List<ImageHolder> prodImgDetailList) throws ProductOperationException;
+
+	/**
+	 * 
+	 * 
+	 * @Title: queryProductionList
+	 * 
+	 * @Description: 查询
+	 * 
+	 * @param productCondition
+	 * @param pageIndex
+	 *            前端页面 只有第几页 第几页 定义为pageIndex
+	 * @param pageSize
+	 *            一页中展示的行数
+	 * @throws ProductOperationException
+	 * 
+	 * @return: ProductExecution
+	 */
+	ProductExecution queryProductionList(Product productCondition, int pageIndex, int pageSize) throws ProductOperationException;
 }

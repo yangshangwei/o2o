@@ -1,5 +1,9 @@
 package com.artisan.o2o.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.artisan.o2o.entity.Product;
 
 public interface ProductDao {
@@ -42,5 +46,40 @@ public interface ProductDao {
 	 * @return: int
 	 */
 	int updateProduct(Product product);
+
+	/**
+	 * 
+	 * 
+	 * @Title: selectProductList
+	 * 
+	 * @Description: 支持分页功能的查询product
+	 * 
+	 *               需要支持根据商品名称（支持模糊查询）、商品状态、shopId、商品类别的查询及组合查询
+	 * 
+	 * @param productCondition
+	 * @param rowIndex
+	 *            从第几行开始取
+	 * @param pageSize
+	 *            返回多少行数据（页面上的数据量）
+	 * 
+	 *            比如 rowIndex为1,pageSize为5 即为 从第一行开始取，取5行数据
+	 * 
+	 * @return: List<Product>
+	 */
+	List<Product> selectProductList(@Param("productCondition") Product productCondition, @Param("rowIndex") int rowIndex, @Param("pageSize") int pageSize);
+
+	/**
+	 * 
+	 * 
+	 * @Title: selectCountProduct
+	 * 
+	 * @Description: 按照条件查询 符合前台传入的条件的商品的总数
+	 * 
+	 * @param productCondition
+	 * @return
+	 * 
+	 * @return: int
+	 */
+	int selectCountProduct(@Param("productCondition") Product productCondition);
 
 }

@@ -76,11 +76,11 @@ public interface ShopService {
 	 * @param pageIndex
 	 *            前端页面 只有第几页 第几页 定义为pageIndex
 	 * @param pageSize
-	 *            展示的行数
+	 *            一页中展示的行数
 	 * @throws ShopOperationException
 	 * 
 	 * @return: ShopExecution
 	 */
-	ShopExecution getShopList(Shop shopCondition, int pageIndex, int pageSize) throws ShopOperationException;;
+	ShopExecution getShopList(Shop shopCondition, int pageIndex, int pageSize) throws ShopOperationException;
 	
 }
