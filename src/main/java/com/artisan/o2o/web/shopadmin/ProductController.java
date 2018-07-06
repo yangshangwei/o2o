@@ -269,6 +269,7 @@ public class ProductController {
 				return modelMap;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			modelMap.put("success", false);
 			modelMap.put("errMsg", e.toString());
 			return modelMap;
@@ -299,5 +300,65 @@ public class ProductController {
 		}
 		return modelMap;
 	}
+	
+	
+	@RequestMapping(value = "/getproductlist", method = RequestMethod.GET)
+	@ResponseBody
+	private Map<String, Object> queryProductList(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		// 获取前端传递过来的页码
+		int pageIndex = HttpServletRequestUtil.getInt(request, "pageIndex");
+		// 获取前端传过来的每页要求返回的商品数量
+		int pageSize = HttpServletRequestUtil.getInt(request, "pageSize");
 
+		// 从session中获取shop信息，主要是获取shopId 不依赖前台的参数，尽可能保证安全
+		Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
+		// 空值判断
+		if ((pageIndex > -1) && (pageSize > -1) && currentShop != null && currentShop.getShopId() != null) {
+			// 获取前台可能传递过来的需要检索的条件，包括是否需要从某个商品类别以及根据商品名称模糊查询某个店铺下的商品
+			long productCategoryId = HttpServletRequestUtil.getLong(request, "productCategoryId");
+			String productName = HttpServletRequestUtil.getString(request, "productName");
+			// 拼装查询条件，根据前端传入的条件进行组合
+			Product productCondition = compactProductCondition4Search(currentShop.getShopId(), productCategoryId, productName);
+			// 调用服务
+			ProductExecution pe = productService.queryProductionList(productCondition, pageIndex, pageSize);
+			// 将结果返回给前台
+			modelMap.put("productList", pe.getProductList());
+			modelMap.put("count", pe.getCount());
+			modelMap.put("success", true);
+		} else {
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "empty pageSize or pageIndex or shopId");
+		}
+		return modelMap;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @Title: compactProductCondition4Search
+	 * 
+	 * @Description: 组装查询条件
+	 * 
+	 * @param shopId
+	 * @param productCategoryId
+	 * @param productName
+	 * 
+	 * @return: Product
+	 */
+	private Product compactProductCondition4Search(Long shopId, long productCategoryId, String productName) {
+		Product productCondition = new Product();
+		Shop shop = new Shop();
+		shop.setShopId(shopId);
+		productCondition.setShop(shop);
+		if (productCategoryId != -1L) {
+			ProductCategory productCategory = new ProductCategory();
+			productCategory.setProductCategoryId(productCategoryId);
+			productCondition.setProductCategory(productCategory);
+		}
+		if (productName != null) {
+			productCondition.setProductName(productName);
+		}
+		return productCondition;
+	}
 }

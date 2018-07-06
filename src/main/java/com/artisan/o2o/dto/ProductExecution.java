@@ -64,10 +64,11 @@ public class ProductExecution {
 	 * @param productStateEnum
 	 * @param productList
 	 */
-	public ProductExecution(ProductStateEnum productStateEnum, List<Product> productList) {
+	public ProductExecution(ProductStateEnum productStateEnum, List<Product> productList, int count) {
 		this.state = productStateEnum.getState();
 		this.stateInfo = productStateEnum.getStateInfo();
 		this.productList = productList;
+		this.count = count;
 	}
 
 	/**
