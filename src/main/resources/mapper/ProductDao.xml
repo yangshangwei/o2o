@@ -48,9 +48,26 @@
 			<result column="create_time" property="createTime" />
 			<result column="product_id" property="productId" />
 		</collection>
-		
-		
 	</resultMap>
+	
+	<sql id="selectProductByCondition">
+		<!-- 根据shopId 查询-->
+		<if test="productCondition.shop != null and  productCondition.shop.shopId != null ">
+			and shop_id = #{productCondition.shop.shopId}
+		</if>
+		<!-- 根据product_category_id  查询-->
+		<if test="productCondition.productCategory != null and productCondition.productCategory.productCategoryId != null">
+			and product_category_id = #{productCondition.productCategory.productCategoryId}
+		</if>
+		<!-- 根据enable_status  查询-->
+		<if test="productCondition.enableStatus != null">
+			and enable_status = #{productCondition.enableStatus}
+		</if>
+		<!-- 根据product_name  模糊查询-->
+		<if test="productCondition.productName != null">
+			and product_name  like '%${productCondition.productName}%'
+		</if>
+	</sql>
 	
 	<insert id="insertProduct" 
 		parameterType="com.artisan.o2o.entity.Product" 
@@ -142,5 +159,40 @@
 		 AND 
 			shop_id=#{shop.shopId}
 	</update>
+	
+	<select id="selectProductList" resultType="com.artisan.o2o.entity.Product">
+		SELECT
+			product_id,
+			product_name,
+			product_desc,
+			img_addr,
+			normal_price,
+			promotion_price,
+			priority,
+			create_time,
+			last_edit_time,
+			enable_status,
+			product_category_id,
+			shop_id
+		FROM
+			tb_product	
+		<where>
+			<include refid="selectProductByCondition"></include>
+		</where>
+		ORDER BY 
+			priority desc 
+		LIMIT  #{rowIndex} ,#{pageSize}
+	</select>
+	
+	
+	<select id="selectCountProduct" resultType="Integer">
+		SELECT
+			count(1)
+		FROM
+			tb_product
+		<where>
+			<include refid="selectProductByCondition"></include>
+		</where>
+	</select>
 	
 </mapper>  

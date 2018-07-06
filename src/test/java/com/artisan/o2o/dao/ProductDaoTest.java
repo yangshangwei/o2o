@@ -1,6 +1,8 @@
 package com.artisan.o2o.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -78,4 +80,45 @@ public class ProductDaoTest extends BaseTest {
 		Assert.assertEquals(1, effectNum);
 
 	}
+
+	@Test
+	public void testC_SelectProductListAndCount() {
+		int rowIndex = 1;
+		int pageSize = 2;
+		List<Product> productList = new ArrayList<Product>();
+		int effectNum = 0;
+
+		Shop shop = new Shop();
+		shop.setShopId(5L);
+
+		Product productCondition = new Product();
+		productCondition.setShop(shop);
+
+		productList = productDao.selectProductList(productCondition, rowIndex, pageSize);
+		Assert.assertEquals(2, productList.size());
+
+		effectNum = productDao.selectCountProduct(productCondition);
+		Assert.assertEquals(7, effectNum);
+
+		System.out.println("==========================================");
+
+		Shop shop2 = new Shop();
+		shop2.setShopId(5L);
+
+
+		ProductCategory productCategory = new ProductCategory();
+		productCategory.setProductCategoryId(36L);
+
+		Product productCondition2 = new Product();
+		productCondition2.setShop(shop2);
+		productCondition2.setProductCategory(productCategory);
+		productCondition2.setProductName("test");
+
+		productList = productDao.selectProductList(productCondition2, rowIndex, pageSize);
+		Assert.assertEquals(2, productList.size());
+
+		effectNum = productDao.selectCountProduct(productCondition2);
+		Assert.assertEquals(5, effectNum);
+	}
+
 }
