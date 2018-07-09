@@ -195,4 +195,15 @@
 		</where>
 	</select>
 	
+	<update id="updateProductCategory2Null">
+		UPDATE 
+			tb_product
+		SET 
+			product_category_id = null
+		WHERE 
+			product_category_id = #{productCategoryId}
+		AND 
+			shop_id = #{shopId}
+	</update>	
+
 </mapper>  

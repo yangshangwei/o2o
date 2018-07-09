@@ -82,4 +82,18 @@ public interface ProductDao {
 	 */
 	int selectCountProduct(@Param("productCondition") Product productCondition);
 
+	/**
+	 * 
+	 * 
+	 * @Title: updateProductCategory2Null
+	 * 
+	 * @Description: 
+	 *               删除productCategory的时候，需要先将tb_product中的该productCategoryId置为null
+	 * 
+	 * @param productCategoryId
+	 * @param shopId
+	 * 
+	 * @return: int
+	 */
+	int updateProductCategory2Null(@Param("productCategoryId") long productCategoryId, @Param("shopId") long shopId);
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.artisan.o2o.dao.ProductCategoryDao;
+import com.artisan.o2o.dao.ProductDao;
 import com.artisan.o2o.dto.ProductCategoryExecution;
 import com.artisan.o2o.entity.ProductCategory;
 import com.artisan.o2o.enums.ProductCategoryStateEnum;
@@ -30,6 +31,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
 	@Autowired
 	private ProductCategoryDao productCategoryDao;
+	@Autowired
+	private ProductDao productDao;
 
 	@Override
 	public List<ProductCategory> queryProductCategoryList(long shopId) {
@@ -62,13 +65,20 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	}
 
 	/**
-	 * TODO 需要先将该商品目录下的商品的类别Id置为空，然后再删除该商品目录， 因此需要事务控制@Transactional
+	 * 需要先将该商品目录下的商品的类别Id置为空，然后再删除该商品目录， 因此需要事务控制@Transactional
 	 */
 	@Override
 	@Transactional
 	public ProductCategoryExecution deleteProductCategory(long productCategoryId, long shopId) throws ProductCategoryOperationException {
-		// TODO 第一步 需要先将该商品目录下的商品的类别Id置为空
-
+		// 第一步 需要先将该商品目录下的商品的类别Id置为空
+		try {
+			int effectNum = productDao.updateProductCategory2Null(productCategoryId, shopId);
+			if (effectNum < 0) {
+				throw new ProductCategoryOperationException("商品类别更新失败");
+			}
+		} catch (Exception e) {
+			throw new ProductCategoryOperationException(e.getMessage());
+		}
 		// 第二步 删除该商品目录
 		try {
 			int effectNum = productCategoryDao.deleteProductCategory(productCategoryId, shopId);

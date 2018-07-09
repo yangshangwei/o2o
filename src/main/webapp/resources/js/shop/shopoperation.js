@@ -97,7 +97,9 @@ $(function() {
 	};
 	
 	
-	
+	$('#return').click(function(){
+		window.location.href = '/o2o/shopadmin/shopmanagement';
+	});
 	
 	
 	

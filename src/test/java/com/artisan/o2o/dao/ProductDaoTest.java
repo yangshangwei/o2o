@@ -121,4 +121,17 @@ public class ProductDaoTest extends BaseTest {
 		Assert.assertEquals(5, effectNum);
 	}
 
+	@Test
+	public void testUpdateProductCategory2Null() {
+		long productCategoryId = 37L;
+		long shopId = 5L;
+		int effectNum = productDao.updateProductCategory2Null(productCategoryId, shopId);
+		Assert.assertEquals(1, effectNum);
+
+		productCategoryId = 36L;
+		effectNum = productDao.updateProductCategory2Null(productCategoryId, shopId);
+		Assert.assertEquals(6, effectNum);
+
+	}
+
 }

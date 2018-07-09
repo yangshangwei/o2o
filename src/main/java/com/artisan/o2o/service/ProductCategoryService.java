@@ -39,7 +39,7 @@ public interface ProductCategoryService {
 	 * 
 	 * @Title: deleteProductCategory
 	 * 
-	 * @Description: TODO 需要先将该商品目录下的商品的类别Id置为空，然后再删除该商品目录， 因此需要事务控制
+	 * @Description: 需要先将该商品目录下的商品的类别Id置为空，然后再删除该商品目录， 因此需要事务控制
 	 * 
 	 * @param productCategoryId
 	 * @param shopId

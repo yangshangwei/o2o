@@ -203,10 +203,8 @@ public class ProductController {
 	@RequestMapping(value = "/modifyproduct", method = RequestMethod.POST)
 	@ResponseBody
 	private Map<String, Object> modifyProduct(HttpServletRequest request) {
-		// 根据需求，页面中的下架按钮操作对应的标示符
-		boolean statusChange = HttpServletRequestUtil.getBoolean(request, "statusChange");
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-		if (!statusChange && !VerifyCodeUtil.verifyCode(request)) {
+		if (!VerifyCodeUtil.verifyCode(request)) {
 			modelMap.put("success", false);
 			modelMap.put("errMsg", "输入了错误的验证码");
 			return modelMap;
@@ -301,7 +299,46 @@ public class ProductController {
 		return modelMap;
 	}
 	
-	
+	/**
+	 * 
+	 * 
+	 * @Title: changeStatus
+	 * 
+	 * @Description: 标注@ResponseBody将返回的model解析为json
+	 * 
+	 * @param request
+	 * @return
+	 * 
+	 * @return: Map<String,Object>
+	 */
+	@RequestMapping(value = "/changestatus",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> changeStatus(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		ObjectMapper mapper = new ObjectMapper();
+		// 获取前端传递过来的product,约定好使用productStr
+		try {
+			String productStr = HttpServletRequestUtil.getString(request, "productStr");
+			Product product = mapper.readValue(productStr, Product.class);
+			Shop tempShop = (Shop) request.getSession().getAttribute("currentShop");
+			product.setShop(tempShop);
+
+			ProductExecution pe = productService.modifyProduct(product, null, null);
+			if (pe.getState() == ProductStateEnum.SUCCESS.getState()) {
+				modelMap.put("success", true);
+				modelMap.put("errMsg", "操作成功");
+			} else {
+				modelMap.put("success", false);
+				modelMap.put("errMsg", pe.getStateInfo());
+			}
+		} catch (Exception e) {
+			modelMap.put("success", false);
+			modelMap.put("errMsg", e.toString());
+			return modelMap;
+		}
+		return modelMap;
+	}
+
 	@RequestMapping(value = "/getproductlist", method = RequestMethod.GET)
 	@ResponseBody
 	private Map<String, Object> queryProductList(HttpServletRequest request) {
