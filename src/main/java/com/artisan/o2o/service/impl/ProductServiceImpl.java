@@ -172,7 +172,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional
 	public ProductExecution modifyProduct(Product product, ImageHolder imageHolder, List<ImageHolder> prodImgDetailList) throws ProductOperationException {
-		if (product != null && product.getShop() != null && product.getShop().getShopId() != null && product.getProductCategory().getProductCategoryId() != null) {
+		if (product != null && product.getShop() != null && product.getShop().getShopId() != null) {
 			// 设置默认的属性
 			product.setLastEditTime(new Date());
 
