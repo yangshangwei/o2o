@@ -40,6 +40,10 @@ public class ShopCategoryDaoTest extends BaseTest {
 			System.out.println(shopCategory2);
 		}
 
+		// 查询 parent is null 的情况
+		categoryList = shopCategoryDao.queryShopCategoryList(null);
+		Assert.assertEquals(1, categoryList.size());
+		System.out.println(categoryList.get(0));
 	}
 
 
