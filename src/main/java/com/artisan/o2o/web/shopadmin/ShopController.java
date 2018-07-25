@@ -159,7 +159,7 @@ public class ShopController {
 	/**
 	 * 
 	 * 
-	 * @Title: getshopinitinfo
+	 * @Title: getshopInitInfo
 	 * 
 	 * @Description: 初始化区域信息 和 ShopCategory信息,返回给前台表单页面
 	 * 
@@ -167,7 +167,7 @@ public class ShopController {
 	 */
 	@RequestMapping(value = "/getshopinitinfo", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> getshopinitinfo() {
+	public Map<String, Object> getshopInitInfo() {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		List<ShopCategory> shopCategoryList = null;
 		List<Area> areaList = null;
