@@ -1,6 +1,5 @@
 package com.artisan.o2o.web.shopadmin;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,10 +141,10 @@ public class ShopController {
 					modelMap.put("success", false);
 					modelMap.put("errMsg", se.getStateInfo());
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				modelMap.put("success", false);
-				modelMap.put("errMsg", "addShop Error");
+				modelMap.put("errMsg", ShopStateEnum.INNER_ERROR.getStateInfo());
 			}
 		} else {
 			// 将错误信息返回给前台

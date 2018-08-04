@@ -20,6 +20,8 @@ public interface ShopCategoryDao {
 	 * 
 	 *               3.商铺只能挂在商铺二级类别下
 	 * 
+	 *               4.在首页点击某个一级商铺目录 进入商铺展示页面的时候 需要加载对应目录下的子目录
+	 * 
 	 *               所以这里需要加个入参ShopCategory，并通过MyBatis提供的注解@Param与Mapper映射文件中的SQL关联起来
 	 *               ，在SQL中进行判断
 	 * 

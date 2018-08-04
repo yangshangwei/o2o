@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class ShopDaoTest extends BaseTest {
 	ShopDao shopDao;
 	
 	@Test
+	@Ignore
 	public void testQueryArea() {
 
 		Shop shop = new Shop();
@@ -62,6 +64,7 @@ public class ShopDaoTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void testUpdateShop() {
 		// shop_id 不可更新 personInfo不可更新
 		Shop shop = new Shop();
@@ -99,6 +102,7 @@ public class ShopDaoTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void testSelectShopById() {
 		Shop shop = shopDao.selectShopById(30L);
 		Assert.assertNotNull(shop);
@@ -110,6 +114,7 @@ public class ShopDaoTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void testSelectShopListAndCount() {
 
 		Area area = new Area();
@@ -229,6 +234,54 @@ public class ShopDaoTest extends BaseTest {
 		Assert.assertEquals(2, count7);
 	}
 
+	@Test
+	public void testSelectShopListAndCount2() {
 
+		// 根据表中的数据 共计6条数据
+		// 其中 2条 属于 【咖啡】二级商铺类别
+		// 其中 2条 属于 【奶茶】二级商铺类别
+		// 其中 2条 属于 【考研辅导】二级商铺类别
 
+		// 而 【咖啡】和【奶茶】二级商铺类别 属于 【美食饮品】一级商铺类别
+
+		// 模拟用户点击【美食饮品】，查询出来属于 【美食饮品】下面的商铺 ,
+		// 期望符合条件的数据为 2条 属于 【咖啡】二级商铺类别的店铺 + 2条 属于 【奶茶】二级商铺类别 的店铺
+		
+		/**
+		 * 
+		 * <!-- 选择了某个大类，列举出该大类下面的全部商店 以parent_id来筛选 --> <if
+		 * test="shopCondition.shopCategory != null and
+		 * shopCondition.shopCategory.parent != null and
+		 * shopCondition.shopCategory.parent.shopCategoryId != null "> and
+		 * s.shop_category_id in ( select shop_category_id from tb_shop_category
+		 * where parent_id = #{shopCondition.shopCategory.parent.shopCategoryId}
+		 * ) </if>
+		 * 
+		 * 
+		 * 
+		 */
+		
+		
+		
+		Shop shopCondition = new Shop();
+		// 模拟
+		ShopCategory childShopCategory = new ShopCategory();
+		ShopCategory parentShopCategory = new ShopCategory();
+		// 设置父类的shopCategoryId
+		parentShopCategory.setShopCategoryId(3L);
+		// 设置父子关系
+		childShopCategory.setParent(parentShopCategory);
+
+		// 设置目录
+		shopCondition.setShopCategory(childShopCategory);
+
+		List<Shop> shoplist = shopDao.selectShopList(shopCondition, 0, 5);
+		int count = shopDao.selectShopCount(shopCondition);
+		Assert.assertEquals(4, shoplist.size());
+		Assert.assertEquals(4, count);
+		for (Shop shop : shoplist) {
+			System.out.println(shop.toString());
+		}
+
+	}
 }

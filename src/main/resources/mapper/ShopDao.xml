@@ -69,10 +69,22 @@
 		<if test="shopCondition.enableStatus !=null">
 			and s.enable_status = #{shopCondition.enableStatus}
 		</if>
-		<!-- 商铺类别  -->
+		<!-- 商铺类别  以shop_category_id来筛选-->
 		<if test="shopCondition.shopCategory != null and shopCondition.shopCategory.shopCategoryId != null ">
 			and s.shop_category_id = #{shopCondition.shopCategory.shopCategoryId}
 		</if>
+		
+		<!-- 选择了某个大类，列举出该大类下面的全部商店   以parent_id来筛选  -->
+		<if test="shopCondition.shopCategory != null 
+			and shopCondition.shopCategory.parent != null
+			and shopCondition.shopCategory.parent.shopCategoryId != null ">
+			and s.shop_category_id in (
+				select shop_category_id 
+					from  tb_shop_category 
+					where parent_id =  #{shopCondition.shopCategory.parent.shopCategoryId}
+				)
+		</if>
+		
 		<!-- owner  -->
 		<if test="shopCondition.owner != null and shopCondition.owner.userId != null">
 			and s.owner_id = #{shopCondition.owner.userId}
