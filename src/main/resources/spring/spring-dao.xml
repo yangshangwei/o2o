@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     
 	<!-- 配置整合mybatis过程 -->
 
-	<!-- 1.配置数据库相关参数properties的属性：${url} -->
-	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<!-- 1.配置数据库相关参数properties的属性：${url} 
+	<context:property-placeholder location="classpath:jdbc.properties"/>-->
+	<!-- 1.使用带有加密功能的外部属性文件 -->
+	<bean  class="com.artisan.o2o.util.EncryptPropertyPlaceholderConfigurer"
+        p:location="classpath:jdbc.properties"
+        p:fileEncoding="utf-8"/> 
 	
 	<!-- 2.数据库连接池 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
