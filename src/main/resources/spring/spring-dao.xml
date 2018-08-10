@@ -11,9 +11,15 @@
 	<!-- 1.配置数据库相关参数properties的属性：${url} 
 	<context:property-placeholder location="classpath:jdbc.properties"/>-->
 	<!-- 1.使用带有加密功能的外部属性文件 -->
-	<bean  class="com.artisan.o2o.util.EncryptPropertyPlaceholderConfigurer"
-        p:location="classpath:jdbc.properties"
-        p:fileEncoding="utf-8"/> 
+	<bean  class="com.artisan.o2o.util.EncryptPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:redis.properties</value>
+			</list>
+		</property>
+		<property name="fileEncoding" value="UTF-8"/>
+	</bean> 
 	
 	<!-- 2.数据库连接池 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
