@@ -52,7 +52,6 @@ public class JedisUtil {
 	/**
 	 * 设置过期时间
 	 * 
-	 * @author ruan 2013-4-11
 	 * @param key
 	 * @param seconds
 	 */
@@ -68,7 +67,6 @@ public class JedisUtil {
 	/**
 	 * 设置默认过期时间
 	 * 
-	 * @author ruan 2013-4-11
 	 * @param key
 	 */
 	public void expire(String key) {

@@ -48,14 +48,20 @@ public class AreaServiceImpl implements AreaService {
 		List<Area> areaList = null;
 		// 定义jackson数据转换操作类
 		ObjectMapper mapper = new ObjectMapper();
-		// 判断key是否存在
+		// 判断redis中key是否存在
+		// 1、存在，直接从redis中取数据
+		// 2、不存在，查询数据库，获取数据，并把数据更新到redis中
 		if (!jedisKeys.exists(key)) {
 			areaList = areaDao.queryArea();
+			// 将相关的实体类集合转换成string,存入redis里面对应的key中
 			String jsonString = mapper.writeValueAsString(areaList);
 			jedisStrings.set(key, jsonString);
 		} else {
+			// 若存在，则直接从redis里面取出相应数据
 			String jsonString = jedisStrings.get(key);
+			// 指定要将string转换成的集合类型
 			JavaType javaType = mapper.getTypeFactory().constructParametricType(ArrayList.class, Area.class);
+			// 将相关key对应的value里的的string转换成java对象的实体类集合
 			areaList = mapper.readValue(jsonString, javaType);
 		}
 		return areaList;
