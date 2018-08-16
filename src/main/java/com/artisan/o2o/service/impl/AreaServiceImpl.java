@@ -38,7 +38,6 @@ public class AreaServiceImpl implements AreaService {
 	@Autowired
 	private JedisUtil.Keys jedisKeys;
 
-	private static String AREALISTKEY = "arealist";
 
 	@Override
 	public List<Area> getAreaList() throws JsonParseException, JsonMappingException, IOException {

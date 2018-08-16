@@ -37,7 +37,7 @@ public class ShopCategoryServiceImpl implements ShopCategoryService {
 		List<ShopCategory> shopCategoryList = new ArrayList<ShopCategory>();
 		
 		// 定义redis中key
-		String key = "shopcategory";
+		String key = SCLISTKEY;
 		// 定义jackson数据转换操作类
 		ObjectMapper mapper = new ObjectMapper();
 		

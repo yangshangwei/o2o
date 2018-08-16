@@ -8,6 +8,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 public interface AreaService {
+
+	// redis key的前缀，抽取到接口层，方便使用
+	public static final String AREALISTKEY = "arealist";
+
 	/**
 	 * 
 	 * 

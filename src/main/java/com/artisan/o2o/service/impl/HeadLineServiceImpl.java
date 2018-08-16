@@ -32,9 +32,8 @@ public class HeadLineServiceImpl implements HeadLineService {
 	@Override
 	public List<HeadLine> queryHeadLineList(HeadLine headLineConditon) {
 		List<HeadLine> headLineList = new ArrayList<HeadLine>();
-		
 		// 定义Key
-		String key = "headline";
+		String key = HEADLINEKEY;
 		// 定义jackson数据转换操作类
 		ObjectMapper mapper = new ObjectMapper();
 		
