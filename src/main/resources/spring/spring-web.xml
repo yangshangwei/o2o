@@ -30,8 +30,7 @@
 	<!-- 4.扫描web相关的bean -->
 	<context:component-scan base-package="com.artisan.o2o.web" />
 
-
-	<!-- 文件上传解析器 -->
+	<!--  文件上传解析器 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="utf-8"></property>
@@ -56,5 +55,4 @@
 			</list>
 		</property>
 	</bean>
-
 </beans>
