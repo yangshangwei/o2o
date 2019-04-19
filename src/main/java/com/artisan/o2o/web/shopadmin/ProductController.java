@@ -117,6 +117,12 @@ public class ProductController {
 				// 得到缩略图的CommonsMultipartFile ,和前端约定好使用thumbnail 传递
 				// ，并构建ImageHolder对象
 				thumbnailFile = (CommonsMultipartFile) multipartHttpServletRequest.getFile("thumbnail");
+				
+				if(thumbnailFile == null){
+					modelMap.put("success", false);
+					modelMap.put("errMsg", "上传图片不能为空~");
+					return modelMap;
+				}
 				// 转化为ImageHolder，使用service层的参数类型要求
 				thumbnail = new ImageHolder(thumbnailFile.getInputStream() ,thumbnailFile.getOriginalFilename());
 				
